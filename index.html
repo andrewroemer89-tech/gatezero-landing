@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gate Zero — Travel Intelligence for YouTube Creators</title>
+<meta name="description" content="The decision engine for travel creators. Track 1,000+ channels, discover untapped destinations, and plan content that performs.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF6EE;
+    --cream-dark: #E8DCC8;
+    --cream-mid: #F5EFE3;
+    --white: #FFFDF7;
+    --ink: #0D0D0D;
+    --ink-mid: #1A1A1A;
+    --ink-light: #2C2C2C;
+    --brown: #8B7355;
+    --brown-light: #A09070;
+    --gold: #B8860B;
+    --gold-bright: #D4A017;
+    --gold-dim: #B8860B25;
+    --green: #4A7C59;
+    --red: #C2553A;
+    --blue: #2E6B8A;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+    --serif: 'Instrument Serif', serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--cream); color: var(--ink); font-family: var(--sans); overflow-x: hidden; }
+
+  /* Grain */
+  body::after {
+    content: ''; position: fixed; inset: 0; opacity: 0.02; pointer-events: none; z-index: 9999;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeIn { from{opacity:0}to{opacity:1} }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+  @keyframes marquee { 0%{transform:translateX(0)}100%{transform:translateX(-50%)} }
+  @keyframes glow { 0%,100%{box-shadow:0 0 20px #B8860B20}50%{box-shadow:0 0 40px #B8860B40} }
+  @keyframes typewriter { from{width:0}to{width:100%} }
+  @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
+  @keyframes scanDown { 0%{top:-2px}100%{top:100%} }
+  @keyframes float1 { 0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-8px) rotate(1deg)} }
+  @keyframes float2 { 0%,100%{transform:translateY(0) rotate(1deg)}50%{transform:translateY(-6px) rotate(-1deg)} }
+  @keyframes float3 { 0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)} }
+  @keyframes countUp { from{opacity:0;transform:scale(0.8)}to{opacity:1;transform:scale(1)} }
+  @keyframes slideIn { from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)} }
+  @keyframes popIn { 0%{opacity:0;transform:scale(0.8)}60%{transform:scale(1.05)}100%{opacity:1;transform:scale(1)} }
+
+  .fu { animation: fadeUp 0.8s ease-out both; }
+  .d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}.d5{animation-delay:.7s}
+
+  /* ═══ NAV ═══ */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 12px 40px; display: flex; align-items: center; justify-content: space-between;
+    background: rgba(13,13,13,0.95); backdrop-filter: blur(16px);
+    border-bottom: 1px solid #ffffff08;
+  }
+  .nav-left { display: flex; align-items: center; gap: 10px; }
+  .nav-mark {
+    width: 30px; height: 30px; background: var(--gold); border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink); font-family: var(--mono); font-weight: 800; font-size: 15px;
+  }
+  .nav-name { font-family: var(--mono); font-weight: 700; font-size: 13px; letter-spacing: 0.12em; color: #E8DCC8; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-family: var(--mono); font-size: 10px; color: #B8A88A; text-decoration: none; letter-spacing: 0.1em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--cream); }
+  .nav-cta {
+    padding: 8px 20px; background: var(--gold); color: var(--ink); border: none; border-radius: 4px;
+    font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    cursor: pointer; text-decoration: none; transition: all 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-bright); transform: translateY(-1px); }
+
+  /* ═══ HERO — DARK, BOLD ═══ */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 100px 40px 60px; text-align: center;
+    background: var(--ink); position: relative; overflow: hidden;
+  }
+
+  /* Grid background */
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(184,134,11,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184,134,11,0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+
+  /* Radial glow */
+  .hero::after {
+    content: ''; position: absolute;
+    width: 600px; height: 600px; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(184,134,11,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-content { position: relative; z-index: 2; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(184,134,11,0.2);
+    border-radius: 40px; margin-bottom: 36px;
+  }
+  .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  .hero-badge-text { font-family: var(--mono); font-size: 10px; font-weight: 500; color: #E8DCC8; letter-spacing: 0.12em; }
+
+  .hero-headline {
+    font-family: var(--serif); font-size: clamp(42px, 7vw, 84px);
+    line-height: 1.04; color: var(--cream); max-width: 880px; margin-bottom: 24px; font-weight: 400;
+  }
+  .hero-headline em { font-style: italic; color: var(--gold); }
+
+  .hero-sub {
+    font-family: var(--sans); font-size: clamp(15px, 1.8vw, 18px);
+    color: #C8B99A; max-width: 520px; line-height: 1.65; margin: 0 auto 44px;
+  }
+
+  .hero-form {
+    display: flex; max-width: 440px; width: 100%; margin: 0 auto;
+    border-radius: 6px; overflow: hidden;
+    border: 1px solid rgba(184,134,11,0.25);
+    animation: glow 4s ease-in-out infinite;
+  }
+  .hero-input {
+    flex: 1; padding: 15px 18px; border: none;
+    background: rgba(255,255,255,0.04); font-family: var(--sans); font-size: 14px;
+    color: var(--cream); outline: none;
+  }
+  .hero-input::placeholder { color: #9A8A72; }
+  .hero-input:focus { background: rgba(255,255,255,0.06); }
+  .hero-btn {
+    padding: 15px 28px; background: var(--gold); color: var(--ink); border: none;
+    font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+    cursor: pointer; white-space: nowrap; transition: all 0.2s;
+  }
+  .hero-btn:hover { background: var(--gold-bright); }
+
+  .hero-note { margin-top: 16px; font-family: var(--mono); font-size: 10px; color: #9A8A72; letter-spacing: 0.06em; }
+
+  /* ── Terminal Preview floating in hero ── */
+  .hero-terminal {
+    margin-top: 56px; width: 100%; max-width: 700px;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px; overflow: hidden; position: relative;
+  }
+  .term-bar {
+    display: flex; align-items: center; gap: 6px; padding: 10px 14px;
+    background: rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .term-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .term-dot.r { background: #C2553A; } .term-dot.y { background: #B8860B; } .term-dot.g { background: #4A7C59; }
+  .term-url {
+    margin-left: 12px; font-family: var(--mono); font-size: 10px; color: #9A8A72; letter-spacing: 0.04em;
+  }
+  .term-body { padding: 24px; min-height: 200px; position: relative; }
+
+  /* Mini dashboard mockup inside terminal */
+  .mini-dash { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .mini-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 6px; padding: 16px; text-align: left;
+  }
+  .mini-label { font-family: var(--mono); font-size: 8px; color: #9A8A72; letter-spacing: 0.12em; margin-bottom: 8px; }
+  .mini-value { font-family: var(--mono); font-size: 22px; font-weight: 800; color: var(--cream); }
+  .mini-value .g { color: var(--gold); }
+  .mini-sub { font-family: var(--mono); font-size: 9px; color: #9A8A72; margin-top: 4px; }
+  .mini-bar-row { display: flex; gap: 3px; margin-top: 10px; height: 40px; align-items: flex-end; }
+  .mini-bar { flex: 1; border-radius: 2px 2px 0 0; transition: all 0.3s; }
+
+  .mini-pulse {
+    position: absolute; top: 20px; right: 20px;
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 12px; background: rgba(74,124,89,0.15); border: 1px solid rgba(74,124,89,0.3);
+    border-radius: 40px;
+  }
+  .mini-pulse-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 1.5s infinite; }
+  .mini-pulse-text { font-family: var(--mono); font-size: 9px; color: var(--green); font-weight: 600; letter-spacing: 0.06em; }
+
+  /* ═══ TICKER ═══ */
+  .ticker-wrap { width: 100%; overflow: hidden; background: var(--ink-mid); padding: 12px 0; border-bottom: 1px solid #ffffff06; }
+  .ticker { display: flex; animation: marquee 40s linear infinite; width: max-content; }
+  .ticker-item {
+    padding: 0 28px; white-space: nowrap;
+    font-family: var(--mono); font-size: 11px; font-weight: 500; color: #E8DCC8; letter-spacing: 0.06em; opacity: 0.65;
+  }
+  .ticker-item .sep { color: var(--gold); margin: 0 8px; }
+
+  /* ═══ SOCIAL PROOF ═══ */
+  .proof-section {
+    padding: 48px 40px;
+    background: var(--cream-mid);
+    border-bottom: 1px solid var(--cream-dark);
+    text-align: center;
+  }
+  .proof-label {
+    font-family: var(--mono); font-size: 9px; color: var(--brown-light);
+    letter-spacing: 0.15em; margin-bottom: 20px; display: block;
+  }
+  .proof-quote {
+    font-family: var(--serif); font-size: clamp(18px, 2.5vw, 26px);
+    color: var(--ink); font-style: italic; max-width: 680px; margin: 0 auto 16px;
+    line-height: 1.45;
+  }
+  .proof-attr {
+    font-family: var(--sans); font-size: 13px; color: var(--brown); font-weight: 500;
+  }
+  .proof-attr strong { color: var(--ink); font-weight: 700; }
+
+  /* ═══ STATS ═══ */
+  .stats-section { padding: 56px 40px; background: var(--cream); }
+  .stats-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
+  .stat-card { text-align: center; padding: 20px; position: relative; }
+  .stat-card:not(:last-child)::after { content:''; position:absolute; right:0; top:20%; height:60%; width:1px; background:var(--cream-dark); }
+  .stat-label { font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: 0.18em; color: var(--brown-light); margin-bottom: 6px; }
+  .stat-value { font-family: var(--mono); font-size: 36px; font-weight: 800; color: var(--ink); line-height: 1; }
+  .stat-value .a { color: var(--gold); }
+  .stat-unit { font-family: var(--mono); font-size: 10px; color: var(--brown); margin-top: 5px; }
+
+  /* ═══ BENTO BOX ═══ */
+  .bento-section { padding: 100px 40px; max-width: 1100px; margin: 0 auto; }
+  .section-header { text-align: center; margin-bottom: 56px; }
+  .section-tag { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.2em; color: var(--gold); margin-bottom: 14px; display: block; }
+  .section-title { font-family: var(--serif); font-size: clamp(30px, 4vw, 46px); color: var(--ink); line-height: 1.15; font-weight: 400; }
+
+  .bento-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .bento-card {
+    background: var(--white); border: 1px solid var(--cream-dark); border-radius: 8px;
+    overflow: hidden; transition: all 0.3s; position: relative;
+  }
+  .bento-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.06); }
+  .bento-card.wide { grid-column: 1 / -1; }
+
+  .bento-visual {
+    background: var(--ink); padding: 28px 24px; position: relative; overflow: hidden; min-height: 210px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  /* Subtle grid inside bento visuals */
+  .bento-visual::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .bento-content { padding: 22px 24px; }
+  .bento-tag { font-family: var(--mono); font-size: 8px; font-weight: 700; letter-spacing: 0.15em; color: var(--gold); margin-bottom: 5px; }
+  .bento-title { font-family: var(--sans); font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 6px; line-height: 1.3; }
+  .bento-desc { font-family: var(--sans); font-size: 13px; color: var(--brown); line-height: 1.6; }
+
+  /* Gap Chart */
+  .gap-chart { display: flex; align-items: flex-end; gap: 8px; height: 150px; width: 100%; padding: 0 8px; position: relative; z-index: 1; }
+  .gap-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .gap-bars { display: flex; gap: 3px; align-items: flex-end; height: 130px; }
+  .gap-bar { width: 16px; border-radius: 2px 2px 0 0; }
+  .gap-bar.demand { background: linear-gradient(to top, #B8860B, #D4A017); }
+  .gap-bar.supply { background: rgba(232,220,200,0.15); }
+  .gap-lbl { font-family: var(--mono); font-size: 8px; color: rgba(232,220,200,0.55); }
+  .gap-flag {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--green); color: white; padding: 4px 12px; border-radius: 3px;
+    font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.06em;
+    animation: popIn 0.5s ease-out both; animation-delay: 0.8s;
+  }
+  .gap-arrow {
+    position: absolute; top: 30px; right: 70px;
+    font-family: var(--mono); font-size: 9px; color: var(--gold); opacity: 0.6;
+  }
+
+  /* Multiplier List */
+  .multi-wrap { width: 100%; max-width: 340px; position: relative; z-index: 1; }
+  .multi-head { font-family: var(--mono); font-size: 9px; color: #B8A88A; letter-spacing: 0.12em; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .multi-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+  .multi-left { display: flex; align-items: center; gap: 10px; }
+  .multi-rank { font-family: var(--mono); font-size: 10px; color: #9A8A72; width: 18px; text-align: right; }
+  .multi-name { font-family: var(--sans); font-size: 12px; color: #F0E8D8; font-weight: 500; }
+  .multi-subs { font-family: var(--mono); font-size: 9px; color: #9A8A72; }
+  .multi-val { font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--gold); }
+  .multi-row.top { background: rgba(184,134,11,0.08); margin: 2px -12px; padding: 9px 12px; border-radius: 4px; border: 1px solid rgba(184,134,11,0.15); }
+
+  /* Stamps */
+  .stamps-wrap { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; position: relative; z-index: 1; }
+  .stamp {
+    padding: 10px 18px; border-radius: 4px; border: 1px solid;
+    font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .stamp:nth-child(1) { animation: float1 5s ease-in-out infinite; }
+  .stamp:nth-child(2) { animation: float2 4.5s ease-in-out infinite; }
+  .stamp:nth-child(3) { animation: float3 5.5s ease-in-out infinite; }
+  .stamp:nth-child(4) { animation: float1 4s ease-in-out infinite 0.5s; }
+  .stamp:nth-child(5) { animation: float2 5s ease-in-out infinite 1s; }
+  .stamp:nth-child(6) { animation: float3 4.5s ease-in-out infinite 0.3s; }
+  .stamp.grn { border-color: rgba(74,124,89,0.5); color: var(--green); background: rgba(74,124,89,0.08); }
+  .stamp.gld { border-color: rgba(184,134,11,0.4); color: var(--gold); background: rgba(184,134,11,0.08); }
+  .stamp.rd { border-color: rgba(194,85,58,0.4); color: var(--red); background: rgba(194,85,58,0.08); }
+  .stamp.bl { border-color: rgba(46,107,138,0.4); color: var(--blue); background: rgba(46,107,138,0.08); }
+
+  /* ═══ HOW IT WORKS ═══ */
+  .how-section { background: var(--ink); padding: 100px 40px; position: relative; overflow: hidden; }
+  .how-section::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(184,134,11,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(184,134,11,0.02) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+  .how-inner { max-width: 1000px; margin: 0 auto; position: relative; z-index: 1; }
+  .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 56px; }
+  .how-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 32px 28px; transition: all 0.3s; }
+  .how-card:hover { border-color: rgba(184,134,11,0.2); background: rgba(255,255,255,0.03); }
+  .how-num { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 16px; opacity: 0.8; }
+  .how-title { font-family: var(--sans); font-size: 18px; font-weight: 700; color: var(--cream); margin-bottom: 10px; line-height: 1.3; }
+  .how-desc { font-family: var(--sans); font-size: 13px; color: #B8A88A; line-height: 1.65; }
+
+  /* ═══ EXTRAS ═══ */
+  .extras-section { padding: 80px 40px; max-width: 1100px; margin: 0 auto; }
+  .extras-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+  .extra-card {
+    padding: 28px 24px; background: var(--white); border: 1px solid var(--cream-dark);
+    border-radius: 6px; transition: all 0.3s;
+  }
+  .extra-card:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.04); }
+  .extra-icon { font-size: 24px; margin-bottom: 14px; }
+  .extra-title { font-family: var(--sans); font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+  .extra-desc { font-family: var(--sans); font-size: 13px; color: var(--brown); line-height: 1.55; }
+
+  /* ═══ CTA ═══ */
+  .cta-section {
+    padding: 100px 40px; text-align: center;
+    background: var(--ink); position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: ''; position: absolute; width: 500px; height: 500px; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(184,134,11,0.06) 0%, transparent 70%);
+  }
+  .cta-inner { position: relative; z-index: 1; }
+  .cta-section .section-title { color: var(--cream); margin-bottom: 16px; }
+  .cta-sub { font-family: var(--sans); font-size: 15px; color: #B8A88A; margin-bottom: 36px; max-width: 460px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+  .cta-form {
+    display: flex; max-width: 440px; margin: 0 auto; border-radius: 6px; overflow: hidden;
+    border: 1px solid rgba(184,134,11,0.25);
+  }
+  .cta-note { font-family: var(--mono); font-size: 10px; color: #9A8A72; margin-top: 14px; letter-spacing: 0.04em; }
+
+  /* ═══ FOOTER ═══ */
+  footer {
+    background: var(--ink); padding: 32px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .footer-left { display: flex; align-items: center; gap: 10px; }
+  .foot-mark {
+    width: 22px; height: 22px; background: var(--gold); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink); font-family: var(--mono); font-weight: 800; font-size: 11px;
+  }
+  .footer-text { font-family: var(--mono); font-size: 10px; color: #9A8A72; letter-spacing: 0.05em; }
+  .footer-links a {
+    font-family: var(--mono); font-size: 10px; color: #9A8A72; text-decoration: none;
+    letter-spacing: 0.05em; transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--cream); }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media(max-width:768px) {
+    nav { padding: 10px 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 90px 20px 50px; }
+    .hero-terminal { display: none; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-card:nth-child(2)::after { display: none; }
+    .bento-grid { grid-template-columns: 1fr; }
+    .bento-card.wide { grid-column: auto; }
+    .how-grid { grid-template-columns: 1fr; gap: 16px; }
+    .extras-grid { grid-template-columns: 1fr; }
+    .hero-form, .cta-form { flex-direction: column; }
+    .hero-input { border-radius: 6px 6px 0 0; }
+    .hero-btn { border-radius: 0 0 6px 6px; }
+    .bento-section, .extras-section { padding-left: 20px; padding-right: 20px; }
+    footer { flex-direction: column; gap: 14px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <div class="nav-mark">G</div>
+    <span class="nav-name">GATE ZERO</span>
+  </div>
+  <div class="nav-links">
+    <a href="#features">FEATURES</a>
+    <a href="#how">HOW IT WORKS</a>
+    <a href="#waitlist">EARLY ACCESS</a>
+  </div>
+  <a href="#waitlist" class="nav-cta">GET EARLY ACCESS</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge fu d1">
+      <div class="hero-badge-dot"></div>
+      <span class="hero-badge-text">Now accepting early access requests</span>
+    </div>
+
+    <h1 class="hero-headline fu d2">
+      Know where to film<br><em>before everyone else</em>
+    </h1>
+
+    <p class="hero-sub fu d3">
+      The decision engine that tells you where to go, when to post, and what's working - backed by data from 1,000+ travel channels.
+    </p>
+
+    <form class="hero-form fu d4" onsubmit="handleSubmit(event)">
+      <input type="email" class="hero-input" placeholder="Your email address" required="">
+      <button type="submit" class="hero-btn">GET EARLY ACCESS</button>
+    </form>
+    <p class="hero-note fu d5">Free during beta · No credit card required</p>
+
+    <!-- Mini terminal preview -->
+    <div class="hero-terminal fu d5">
+      <div class="term-bar">
+        <div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div>
+        <span class="term-url">gatezero.app — Dashboard</span>
+      </div>
+      <div class="term-body">
+        <div class="mini-pulse">
+          <div class="mini-pulse-dot"></div>
+          <span class="mini-pulse-text">LIVE DATA</span>
+        </div>
+        <div class="mini-dash">
+          <div class="mini-card">
+            <div class="mini-label">NETWORK VIEWS</div>
+            <div class="mini-value">305.<span class="g">5M</span></div>
+            <div class="mini-sub">+12.3% vs last month</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-label">CREATORS ACTIVE</div>
+            <div class="mini-value">1,<span class="g">047</span></div>
+            <div class="mini-sub">across 190+ countries</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-label">TOP OPPORTUNITY</div>
+            <div class="mini-value" style="font-size:18px;">🇻🇳 <span class="g">Vietnam</span></div>
+            <div class="mini-sub">Score: 94 · Gap: HIGH</div>
+            <div class="mini-bar-row">
+              <div class="mini-bar" style="height:30%;background:#E8DCC820;"></div>
+              <div class="mini-bar" style="height:40%;background:#E8DCC825;"></div>
+              <div class="mini-bar" style="height:55%;background:var(--gold);opacity:0.4;"></div>
+              <div class="mini-bar" style="height:75%;background:var(--gold);opacity:0.6;"></div>
+              <div class="mini-bar" style="height:95%;background:var(--gold);"></div>
+              <div class="mini-bar" style="height:80%;background:var(--gold);opacity:0.7;"></div>
+              <div class="mini-bar" style="height:50%;background:var(--gold);opacity:0.4;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item">BALI <span class="sep">✈</span> 847 CREATORS</span>
+    <span class="ticker-item">JAPAN <span class="sep">✈</span> 2.4M SEARCHES</span>
+    <span class="ticker-item">PORTUGAL <span class="sep">✈</span> +340% TRENDING</span>
+    <span class="ticker-item">THAILAND <span class="sep">✈</span> 156 VIDEOS/WK</span>
+    <span class="ticker-item">COLOMBIA <span class="sep">✈</span> UNDERSATURATED</span>
+    <span class="ticker-item">TURKEY <span class="sep">✈</span> PEAK SEASON</span>
+    <span class="ticker-item">MOROCCO <span class="sep">✈</span> RISING DEMAND</span>
+    <span class="ticker-item">VIETNAM <span class="sep">✈</span> SCORE: 94</span>
+    <span class="ticker-item">BALI <span class="sep">✈</span> 847 CREATORS</span>
+    <span class="ticker-item">JAPAN <span class="sep">✈</span> 2.4M SEARCHES</span>
+    <span class="ticker-item">PORTUGAL <span class="sep">✈</span> +340% TRENDING</span>
+    <span class="ticker-item">THAILAND <span class="sep">✈</span> 156 VIDEOS/WK</span>
+    <span class="ticker-item">COLOMBIA <span class="sep">✈</span> UNDERSATURATED</span>
+    <span class="ticker-item">TURKEY <span class="sep">✈</span> PEAK SEASON</span>
+    <span class="ticker-item">MOROCCO <span class="sep">✈</span> RISING DEMAND</span>
+    <span class="ticker-item">VIETNAM <span class="sep">✈</span> SCORE: 94</span>
+  </div>
+</div>
+
+<!-- SOCIAL PROOF -->
+<section class="proof-section" style="opacity: 0; transform: translateY(24px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);">
+  <span class="proof-label">BUILT BY A CREATOR, FOR CREATORS</span>
+  <p class="proof-quote">"I was spending hours researching destinations manually. Gate Zero shows me in seconds what used to take a full day of spreadsheet work."</p>
+  <p class="proof-attr"><strong>Andrew Roemer</strong> · Travel Creator &amp; Founder, Gate Zero</p>
+</section>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-card" style="opacity: 0; transform: translateY(24px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);"><div class="stat-label">Creators Tracked</div><div class="stat-value">1,<span class="a">000</span>+</div><div class="stat-unit">travel channels</div></div>
+    <div class="stat-card" style="opacity: 0; transform: translateY(24px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);"><div class="stat-label">Monthly Views</div><div class="stat-value">300<span class="a">M</span>+</div><div class="stat-unit">across the network</div></div>
+    <div class="stat-card" style="opacity: 0; transform: translateY(24px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);"><div class="stat-label">Destinations</div><div class="stat-value"><span class="a">190</span>+</div><div class="stat-unit">countries profiled</div></div>
+    <div class="stat-card" style="opacity: 0; transform: translateY(24px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);"><div class="stat-label">Data Points</div><div class="stat-value">50<span class="a">K</span>+</div><div class="stat-unit">videos analyzed</div></div>
+  </div>
+</section>
+
+<!-- BENTO BOX -->
+<section class="bento-section" id="features">
+  <div class="section-header">
+    <span class="section-tag">What You'll See Inside</span>
+    <h2 class="section-title">The tools that give you<br>an unfair advantage</h2>
+  </div>
+
+  <div class="bento-grid">
+    <!-- Gap Chart -->
+    <div class="bento-card" style="opacity: 0; transform: translateY(24px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);">
+      <div class="bento-visual">
+        <div class="gap-flag">GAP DETECTED</div>
+        <div class="gap-chart">
+          <div class="gap-group"><div class="gap-bars"><div class="gap-bar demand" style="height:25%"></div><div class="gap-bar supply" style="height:45%"></div></div><div class="gap-lbl">JAN</div></div>
+          <div class="gap-group"><div class="gap-bars"><div class="gap-bar demand" style="height:30%"></div><div class="gap-bar supply" style="height:42%"></div></div><div class="gap-lbl">FEB</div></div>
+          <div class="gap-group"><div class="gap-bars"><div class="gap-bar demand" style="height:48%"></div><div class="gap-bar supply" style="height:38%"></div></div><div class="gap-lbl">MAR</div></div>
+          <div class="gap-group"><div class="gap-bars"><div class="gap-bar demand" style="height:62%"></div><div class="gap-bar supply" style="height:30%"></div></div><div class="gap-lbl">APR</div></div>
+          <div class="gap-group"><div class="gap-bars"><div class="gap-bar demand" style="height:92%"></div><div class="gap-bar supply" style="height:18%"></div></div><div class="gap-lbl" style="color:var(--gold);opacity:1;font-weight:700;">MAY</div></div>
+          <div class="gap-group"><div class="gap-bars"><div class="gap-bar demand" style="height:78%"></div><div class="gap-bar supply" style="height:28%"></div></div><div class="gap-lbl">JUN</div></div>
+          <div class="gap-group"><div class="gap-bars"><div class="gap-bar demand" style="height:55%"></div><div class="gap-bar supply" style="height:50%"></div></div><div class="gap-lbl">JUL</div></div>
+          <div class="gap-group"><div class="gap-bars"><div class="gap-bar demand" style="height:40%"></div><div class="gap-bar supply" style="height:55%"></div></div><div class="gap-lbl">AUG</div></div>
+        </div>
+      </div>
+      <div class="bento-content">
+        <div class="bento-tag">Demand vs Supply</div>
+        <div class="bento-title">Spot the gap before anyone else</div>
+        <div class="bento-desc">See exactly which months have surging tourist demand but almost no creator content. That whitespace is your profit margin.</div>
+      </div>
+    </div>
+
+    <!-- Multiplier -->
+    <div class="bento-card" style="opacity: 0; transform: translateY(24px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);">
+      <div class="bento-visual">
+        <div class="multi-wrap">
+          <div class="multi-head">HIGHEST MULTIPLIER — VIETNAM</div>
+          <div class="multi-row top">
+            <div class="multi-left"><span class="multi-rank">1</span><div><div class="multi-name">BackpackBen</div><div class="multi-subs">12K subs</div></div></div>
+            <div class="multi-val">26.0×</div>
+          </div>
+          <div class="multi-row">
+            <div class="multi-left"><span class="multi-rank">2</span><div><div class="multi-name">NomadLisa</div><div class="multi-subs">8.4K subs</div></div></div>
+            <div class="multi-val">19.2×</div>
+          </div>
+          <div class="multi-row">
+            <div class="multi-left"><span class="multi-rank">3</span><div><div class="multi-name">TravelWithMark</div><div class="multi-subs">45K subs</div></div></div>
+            <div class="multi-val">8.7×</div>
+          </div>
+          <div class="multi-row">
+            <div class="multi-left"><span class="multi-rank">4</span><div><div class="multi-name">WorldWideWes</div><div class="multi-subs">92K subs</div></div></div>
+            <div class="multi-val">4.1×</div>
+          </div>
+        </div>
+      </div>
+      <div class="bento-content">
+        <div class="bento-tag">Algorithm Decoder</div>
+        <div class="bento-title">Find what the algorithm is rewarding</div>
+        <div class="bento-desc">A 12K channel getting 26× their expected views on Vietnam content? That's a signal. Filter by multiplier to see what's actually working.</div>
+      </div>
+    </div>
+
+    <!-- Stamps (wide) -->
+    <div class="bento-card wide" style="opacity: 0; transform: translateY(24px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);">
+      <div class="bento-visual" style="min-height:150px;">
+        <div class="stamps-wrap">
+          <div class="stamp grn">✓ CHEAPEST FLIGHTS: SEP–OCT</div>
+          <div class="stamp gld">⚠ HOTEL SURGE: +45% DEC</div>
+          <div class="stamp bl">✈ VISA FREE — 30 DAYS</div>
+          <div class="stamp rd">● MONSOON RISK: JUN–AUG</div>
+          <div class="stamp grn">✓ FILMING: OPTIMAL MAR–MAY</div>
+          <div class="stamp gld">📊 AUDIENCE PEAK: FEB</div>
+        </div>
+      </div>
+      <div class="bento-content" style="text-align:center;">
+        <div class="bento-tag">Live Telemetry</div>
+        <div class="bento-title">Validate the opportunity before you book</div>
+        <div class="bento-desc">Flight costs, hotel surges, visa rules, weather risks, filming conditions, audience peaks — all confirmed before you commit.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="how-inner">
+    <div class="section-header">
+      <span class="section-tag" style="color:var(--gold);">How It Works</span>
+      <h2 class="section-title" style="color:var(--cream);">From data to departure<br>in three steps</h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-card" style="opacity: 0; transform: translateY(24px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);">
+        <div class="how-num">STEP 01</div>
+        <div class="how-title">Identify the gap</div>
+        <div class="how-desc">Spot the exact months where tourist demand is surging but creator content is dead. That whitespace is where your videos get disproportionate reach.</div>
+      </div>
+      <div class="how-card" style="opacity: 0; transform: translateY(24px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);">
+        <div class="how-num">STEP 02</div>
+        <div class="how-title">Decode what works</div>
+        <div class="how-desc">Filter past videos by multiplier to find which thumbnails, titles, and angles the algorithm is actively rewarding. Build strategy on proof.</div>
+      </div>
+      <div class="how-card" style="opacity: 0; transform: translateY(24px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);">
+        <div class="how-num">STEP 03</div>
+        <div class="how-title">Validate and go</div>
+        <div class="how-desc">Confirm with live data on flight costs, hotel surges, visa rules, and filming conditions. Then book knowing the numbers back you up.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXTRAS -->
+<section class="extras-section">
+  <div class="section-header">
+    <span class="section-tag">Also Included</span>
+    <h2 class="section-title">Everything else in the toolkit</h2>
+  </div>
+  <div class="extras-grid">
+    <div class="extra-card" style="opacity: 0; transform: translateY(24px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);"><div class="extra-icon">🗺️</div><div class="extra-title">Global Destination Map</div><div class="extra-desc">Creator density and content saturation across 190+ countries. Find where the views are.</div></div>
+    <div class="extra-card" style="opacity: 0; transform: translateY(24px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);"><div class="extra-icon">📅</div><div class="extra-title">Content Calendar</div><div class="extra-desc">12-month planner with filming conditions, audience peaks, and flight cost intelligence.</div></div>
+    <div class="extra-card" style="opacity: 0; transform: translateY(24px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);"><div class="extra-icon">🔍</div><div class="extra-title">Inspiration Engine</div><div class="extra-desc">Save top-performing videos, extract tags, and analyse what makes them work.</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="waitlist">
+  <div class="cta-inner">
+    <span class="section-tag" style="color:var(--gold);">Early Access</span>
+    <h2 class="section-title" style="color:var(--cream);">Ready to fly smarter?</h2>
+    <p class="cta-sub">Gate Zero is in closed beta. Join the waitlist and be among the first travel creators to get access.</p>
+    <form class="cta-form" onsubmit="handleSubmit(event)">
+      <input type="email" class="hero-input" placeholder="Your email address" required="">
+      <button type="submit" class="hero-btn">JOIN WAITLIST</button>
+    </form>
+    <p class="cta-note">Free during beta · No credit card required</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <div class="foot-mark">G</div>
+    <span class="footer-text">© 2026 Gate Zero</span>
+  </div>
+  <div class="footer-links"><a href="mailto:hello@gatezero.app">hello@gatezero.app</a></div>
+</footer>
+
+<script>
+  const SUPABASE_URL = 'https://tjdvnmymctajtncgpgjw.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_Kn9EqXa2B46I7NqRXRRr9w_DCfPcoLG';
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const input = e.target.querySelector('input');
+    const btn = e.target.querySelector('button');
+    const originalText = btn.textContent;
+    const email = input.value.trim();
+
+    if (!email) return;
+
+    btn.textContent = 'SENDING...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/waitlist`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ email })
+      });
+
+      if (res.ok) {
+        btn.textContent = '✓ YOU\'RE IN';
+        btn.style.background = '#4A7C59';
+        input.value = '';
+        input.disabled = true;
+      } else if (res.status === 409 || (await res.text()).includes('duplicate')) {
+        btn.textContent = 'ALREADY SIGNED UP';
+        btn.style.background = '#2E6B8A';
+        input.value = '';
+      } else {
+        btn.textContent = 'TRY AGAIN';
+        btn.style.background = '#C2553A';
+      }
+    } catch (err) {
+      btn.textContent = 'TRY AGAIN';
+      btn.style.background = '#C2553A';
+    }
+
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.style.background = 'var(--gold)';
+      input.disabled = false;
+      btn.disabled = false;
+    }, 3000);
+  }
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.style.transitionDelay = `${i * 0.08}s`;
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.bento-card, .stat-card, .extra-card, .how-card, .proof-section').forEach(el => {
+    el.style.opacity = '0'; el.style.transform = 'translateY(24px)';
+    el.style.transition = 'all 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
+    obs.observe(el);
+  });
+</script>
+
+
+</body></html>
