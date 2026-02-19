@@ -63,11 +63,7 @@
     border-bottom: 1px solid #ffffff08;
   }
   .nav-left { display: flex; align-items: center; gap: 10px; }
-  .nav-mark {
-    width: 30px; height: 30px; background: var(--gold); border-radius: 5px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--ink); font-family: var(--mono); font-weight: 800; font-size: 15px;
-  }
+  .nav-mark { width: 30px; height: 30px; flex-shrink: 0; }
   .nav-name { font-family: var(--mono); font-weight: 700; font-size: 13px; letter-spacing: 0.12em; color: #E8DCC8; }
   .nav-links { display: flex; gap: 28px; }
   .nav-links a { font-family: var(--mono); font-size: 10px; color: #B8A88A; text-decoration: none; letter-spacing: 0.1em; transition: color 0.2s; }
@@ -357,11 +353,7 @@
     border-top: 1px solid rgba(255,255,255,0.04);
   }
   .footer-left { display: flex; align-items: center; gap: 10px; }
-  .foot-mark {
-    width: 22px; height: 22px; background: var(--gold); border-radius: 4px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--ink); font-family: var(--mono); font-weight: 800; font-size: 11px;
-  }
+  .foot-mark { width: 22px; height: 22px; flex-shrink: 0; }
   .footer-text { font-family: var(--mono); font-size: 10px; color: #9A8A72; letter-spacing: 0.05em; }
   .footer-links a {
     font-family: var(--mono); font-size: 10px; color: #9A8A72; text-decoration: none;
@@ -394,7 +386,7 @@
 <!-- NAV -->
 <nav>
   <div class="nav-left">
-    <div class="nav-mark">G</div>
+    <svg class="nav-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gzf" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#C9973B"/><stop offset="35%" stop-color="#E8C66A"/><stop offset="50%" stop-color="#F5DFA0"/><stop offset="65%" stop-color="#E8C66A"/><stop offset="100%" stop-color="#9A7530"/></linearGradient><linearGradient id="gzb" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#0A0F1A"/><stop offset="100%" stop-color="#151D2E"/></linearGradient></defs><rect x="5" y="5" width="90" height="90" rx="16" fill="url(#gzb)"/><rect x="10" y="10" width="80" height="80" rx="14" stroke="url(#gzf)" stroke-width="3" fill="none"/><rect x="33" y="22" width="34" height="56" rx="17" stroke="#E8B94E" stroke-width="3.5" fill="none"/></svg>
     <span class="nav-name">GATE ZERO</span>
   </div>
   <div class="nav-links">
@@ -646,7 +638,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-left">
-    <div class="foot-mark">G</div>
+    <svg class="foot-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="90" height="90" rx="16" fill="url(#gzb)"/><rect x="10" y="10" width="80" height="80" rx="14" stroke="url(#gzf)" stroke-width="3" fill="none"/><rect x="33" y="22" width="34" height="56" rx="17" stroke="#E8B94E" stroke-width="3.5" fill="none"/></svg>
     <span class="footer-text">© 2026 Gate Zero</span>
   </div>
   <div class="footer-links"><a href="mailto:hello@gatezero.app">hello@gatezero.app</a></div>
