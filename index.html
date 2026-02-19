@@ -418,6 +418,11 @@
     border: 1px solid rgba(184,134,11,0.25);
   }
   .cta-note { font-family: var(--mono); font-size: 10px; color: #9A8A72; margin-top: 14px; letter-spacing: 0.04em; }
+  .cta-urgent {
+    font-family: var(--mono); font-size: clamp(14px, 2vw, 18px); font-weight: 800;
+    letter-spacing: 0.18em; color: var(--gold); margin-bottom: 28px;
+    text-transform: uppercase;
+  }
 
   /* ═══ FOOTER ═══ */
   footer {
@@ -467,9 +472,9 @@
   <div class="nav-links">
     <a href="#features">FEATURES</a>
     <a href="#how">HOW IT WORKS</a>
-    <a href="#waitlist">EARLY ACCESS</a>
+    <a href="#waitlist">COMING SOON</a>
   </div>
-  <a href="#waitlist" class="nav-cta">GET EARLY ACCESS</a>
+  <a href="#waitlist" class="nav-cta">JOIN WAITLIST</a>
 </nav>
 
 <!-- HERO -->
@@ -477,7 +482,7 @@
   <div class="hero-content">
     <div class="hero-badge fu d1">
       <div class="hero-badge-dot"></div>
-      <span class="hero-badge-text">Now accepting early access requests</span>
+      <span class="hero-badge-text">Coming soon — join the waitlist</span>
     </div>
 
     <h1 class="hero-headline fu d2">
@@ -490,9 +495,9 @@
 
     <form class="hero-form fu d4" onsubmit="handleSubmit(event)">
       <input type="email" class="hero-input" placeholder="Your email address" required="">
-      <button type="submit" class="hero-btn">GET EARLY ACCESS</button>
+      <button type="submit" class="hero-btn">JOIN WAITLIST</button>
     </form>
-    <p class="hero-note fu d5">Free during beta · No credit card required</p>
+    <p class="hero-note fu d5">Free during beta · Spots are limited</p>
 
     <!-- Mini terminal preview -->
     <div class="hero-terminal fu d5">
@@ -731,9 +736,10 @@
 <!-- CTA -->
 <section class="cta-section" id="waitlist">
   <div class="cta-inner">
-    <span class="section-tag" style="color:var(--gold);">Early Access</span>
+    <span class="section-tag" style="color:var(--gold);">Coming Soon</span>
     <h2 class="section-title" style="color:var(--cream);">Ready to fly smarter?</h2>
-    <p class="cta-sub">Gate Zero is in closed beta. Join the waitlist and be among the first travel creators to get access.</p>
+    <p class="cta-sub">Gate Zero is launching soon. Join the waitlist and be the first to know when we go live.</p>
+    <p class="cta-urgent">SPOTS ARE LIMITED</p>
     <form class="cta-form" onsubmit="handleSubmit(event)">
       <input type="email" class="hero-input" placeholder="Your email address" required="">
       <button type="submit" class="hero-btn">JOIN WAITLIST</button>
