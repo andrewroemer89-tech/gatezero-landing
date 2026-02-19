@@ -1,0 +1,18 @@
+<svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gz-frame" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C9973B"/>
+      <stop offset="35%" stop-color="#E8C66A"/>
+      <stop offset="50%" stop-color="#F5DFA0"/>
+      <stop offset="65%" stop-color="#E8C66A"/>
+      <stop offset="100%" stop-color="#9A7530"/>
+    </linearGradient>
+    <linearGradient id="gz-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0A0F1A"/>
+      <stop offset="100%" stop-color="#151D2E"/>
+    </linearGradient>
+  </defs>
+  <rect x="5" y="5" width="90" height="90" rx="16" fill="url(#gz-bg)"/>
+  <rect x="10" y="10" width="80" height="80" rx="14" stroke="url(#gz-frame)" stroke-width="3" fill="none"/>
+  <rect x="33" y="22" width="34" height="56" rx="17" stroke="#E8B94E" stroke-width="3.5" fill="none"/>
+</svg>

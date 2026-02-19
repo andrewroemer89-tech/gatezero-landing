@@ -4,6 +4,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gate Zero — Travel Intelligence for YouTube Creators</title>
 <meta name="description" content="The decision engine for travel creators. Track 1,000+ channels, discover untapped destinations, and plan content that performs.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:title" content="Gate Zero — Travel Intelligence for YouTube Creators">
+<meta property="og:description" content="The decision engine for travel creators. Track 1,000+ channels, discover untapped destinations, and plan content that performs.">
+<meta property="og:image" content="https://gatezero.app/og-image.png">
+<meta property="og:url" content="https://gatezero.app">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Gate Zero — Travel Intelligence for YouTube Creators">
+<meta name="twitter:description" content="The decision engine for travel creators.">
+<meta name="twitter:image" content="https://gatezero.app/og-image.png">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -211,6 +221,61 @@
   }
   .proof-attr strong { color: var(--ink); font-weight: 700; }
 
+  /* ═══ FOUNDER ═══ */
+  .founder-section {
+    padding: 72px 40px;
+    background: var(--cream-mid);
+    border-bottom: 1px solid var(--cream-dark);
+  }
+  .founder-inner {
+    max-width: 860px; margin: 0 auto;
+    display: grid; grid-template-columns: 200px 1fr; gap: 48px; align-items: center;
+  }
+  .founder-photo {
+    width: 200px; height: 200px; border-radius: 50%; object-fit: cover;
+    border: 3px solid var(--cream-dark);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  }
+  .founder-text { display: flex; flex-direction: column; gap: 16px; }
+  .founder-label {
+    font-family: var(--mono); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; color: var(--gold); text-transform: uppercase;
+  }
+  .founder-name {
+    font-family: var(--serif); font-size: 28px; color: var(--ink); font-weight: 400; line-height: 1.2;
+  }
+  .founder-bio {
+    font-family: var(--sans); font-size: 15px; color: var(--brown); line-height: 1.65; max-width: 520px;
+  }
+  .founder-quote {
+    font-family: var(--serif); font-size: 17px; font-style: italic;
+    color: var(--ink); line-height: 1.5; padding-left: 16px;
+    border-left: 2px solid var(--gold);
+  }
+  .founder-links { display: flex; gap: 12px; margin-top: 4px; }
+  .founder-link {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 18px; border-radius: 6px; font-family: var(--mono);
+    font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+    text-decoration: none; transition: all 0.2s;
+  }
+  .founder-link.yt {
+    background: #FF0000; color: #fff;
+  }
+  .founder-link.yt:hover { background: #cc0000; transform: translateY(-1px); }
+  .founder-link.ig {
+    background: linear-gradient(135deg, #833AB4, #E1306C, #F77737); color: #fff;
+  }
+  .founder-link.ig:hover { opacity: 0.9; transform: translateY(-1px); }
+  .founder-link svg { width: 16px; height: 16px; fill: currentColor; }
+
+  @media(max-width:768px) {
+    .founder-inner { grid-template-columns: 1fr; text-align: center; justify-items: center; gap: 28px; }
+    .founder-photo { width: 150px; height: 150px; }
+    .founder-quote { border-left: none; padding-left: 0; border-top: 2px solid var(--gold); padding-top: 12px; }
+    .founder-links { justify-content: center; }
+  }
+
   /* ═══ STATS ═══ */
   .stats-section { padding: 56px 40px; background: var(--cream); }
   .stats-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
@@ -355,11 +420,13 @@
   .footer-left { display: flex; align-items: center; gap: 10px; }
   .foot-mark { width: 22px; height: 22px; flex-shrink: 0; }
   .footer-text { font-family: var(--mono); font-size: 10px; color: #9A8A72; letter-spacing: 0.05em; }
+  .footer-links { display: flex; align-items: center; gap: 20px; }
   .footer-links a {
     font-family: var(--mono); font-size: 10px; color: #9A8A72; text-decoration: none;
-    letter-spacing: 0.05em; transition: color 0.2s;
+    letter-spacing: 0.05em; transition: color 0.2s; display: inline-flex; align-items: center; gap: 5px;
   }
   .footer-links a:hover { color: var(--cream); }
+  .footer-links a svg { width: 14px; height: 14px; fill: currentColor; }
 
   /* ═══ RESPONSIVE ═══ */
   @media(max-width:768px) {
@@ -483,11 +550,27 @@
   </div>
 </div>
 
-<!-- SOCIAL PROOF -->
-<section class="proof-section" style="opacity: 0; transform: translateY(24px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);">
-  <span class="proof-label">BUILT BY A CREATOR, FOR CREATORS</span>
-  <p class="proof-quote">"I was spending hours researching destinations manually. Gate Zero shows me in seconds what used to take a full day of spreadsheet work."</p>
-  <p class="proof-attr"><strong>Andrew Roemer</strong> · Travel Creator &amp; Founder, Gate Zero</p>
+<!-- FOUNDER -->
+<section class="founder-section" style="opacity: 0; transform: translateY(24px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);">
+  <div class="founder-inner">
+    <img class="founder-photo" src="andrew.jpg" alt="Andrew Roemer — Founder of Gate Zero">
+    <div class="founder-text">
+      <span class="founder-label">Built by a Creator, for Creators</span>
+      <h3 class="founder-name">Andrew Roemer</h3>
+      <p class="founder-bio">Travel creator and data nerd who got tired of guessing where to film next. I built Gate Zero to replace hours of spreadsheet research with one glance at the data.</p>
+      <p class="founder-quote">"I was spending hours researching destinations manually. Gate Zero shows me in seconds what used to take a full day of spreadsheet work."</p>
+      <div class="founder-links">
+        <a class="founder-link yt" href="https://www.youtube.com/@RoemerAroundtheWorld" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          MY CHANNEL
+        </a>
+        <a class="founder-link ig" href="https://www.instagram.com/RoemerAroundtheWorld" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          INSTAGRAM
+        </a>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- STATS -->
@@ -641,7 +724,11 @@
     <svg class="foot-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="90" height="90" rx="16" fill="url(#gzb)"/><rect x="10" y="10" width="80" height="80" rx="14" stroke="url(#gzf)" stroke-width="3" fill="none"/><rect x="33" y="22" width="34" height="56" rx="17" stroke="#E8B94E" stroke-width="3.5" fill="none"/></svg>
     <span class="footer-text">© 2026 Gate Zero</span>
   </div>
-  <div class="footer-links"><a href="mailto:hello@gatezero.app">hello@gatezero.app</a></div>
+  <div class="footer-links">
+    <a href="mailto:hello@gatezero.app">hello@gatezero.app</a>
+    <a href="https://www.youtube.com/@RoemerAroundtheWorld" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>YouTube</a>
+    <a href="https://www.instagram.com/RoemerAroundtheWorld" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>Instagram</a>
+  </div>
 </footer>
 
 <script>
@@ -708,7 +795,7 @@
     });
   }, { threshold: 0.08 });
 
-  document.querySelectorAll('.bento-card, .stat-card, .extra-card, .how-card, .proof-section').forEach(el => {
+  document.querySelectorAll('.bento-card, .stat-card, .extra-card, .how-card, .founder-section').forEach(el => {
     el.style.opacity = '0'; el.style.transform = 'translateY(24px)';
     el.style.transition = 'all 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
     obs.observe(el);
