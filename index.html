@@ -100,18 +100,18 @@
 
   @keyframes introSpinOuter {
     0% { transform: rotate(0deg); animation-timing-function: linear; }
-    30% { transform: rotate(360deg); animation-timing-function: cubic-bezier(0.65, 0, 0.15, 1); }
-    42% { transform: rotate(720deg); }
-    55% { transform: rotate(720deg); animation-timing-function: cubic-bezier(0.65, 0, 0.15, 1); }
-    65% { transform: rotate(1080deg); }
+    15% { transform: rotate(360deg); animation-timing-function: cubic-bezier(0.65, 0, 0.15, 1); }
+    28% { transform: rotate(720deg); }
+    42% { transform: rotate(720deg); animation-timing-function: cubic-bezier(0.65, 0, 0.15, 1); }
+    55% { transform: rotate(1080deg); }
     100% { transform: rotate(1080deg); }
   }
   @keyframes introSpinInner {
     0% { transform: rotate(0deg); animation-timing-function: linear; }
-    30% { transform: rotate(-360deg); animation-timing-function: cubic-bezier(0.65, 0, 0.15, 1); }
-    42% { transform: rotate(-720deg); }
-    55% { transform: rotate(-720deg); animation-timing-function: cubic-bezier(0.65, 0, 0.15, 1); }
-    65% { transform: rotate(-1080deg); }
+    15% { transform: rotate(-360deg); animation-timing-function: cubic-bezier(0.65, 0, 0.15, 1); }
+    28% { transform: rotate(-720deg); }
+    42% { transform: rotate(-720deg); animation-timing-function: cubic-bezier(0.65, 0, 0.15, 1); }
+    55% { transform: rotate(-1080deg); }
     100% { transform: rotate(-1080deg); }
   }
 
@@ -142,11 +142,11 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: introTitleFade 6s ease forwards, introTitleShine 1.8s ease-in-out 3.8s forwards;
+    animation: introTitleFade 6s ease forwards, introTitleShine 1.8s ease-in-out 3.2s forwards;
   }
   @keyframes introTitleFade {
-    0%, 48% { opacity: 0; transform: translateY(8px); }
-    62%, 100% { opacity: 1; transform: translateY(0); }
+    0%, 38% { opacity: 0; transform: translateY(8px); }
+    52%, 100% { opacity: 1; transform: translateY(0); }
   }
   @keyframes introTitleShine {
     0% { background-position: 100% 0; }
@@ -164,8 +164,8 @@
     animation: introTagFade 6s ease forwards;
   }
   @keyframes introTagFade {
-    0%, 72% { opacity: 0; transform: translateY(6px); }
-    85%, 100% { opacity: 1; transform: translateY(0); }
+    0%, 58% { opacity: 0; transform: translateY(6px); }
+    72%, 100% { opacity: 1; transform: translateY(0); }
   }
 
   /* Fade-out transition — triggered via JS */
@@ -594,42 +594,42 @@
 
       <!-- Red record dot -->
       <circle r="5" fill="#EF4444" opacity="0" filter="drop-shadow(0 0 6px #EF4444)">
-        <animate attributeName="cx" values="145; 145; 145; 200; 200" keyTimes="0; 0.42; 0.55; 0.65; 1" dur="6s" repeatCount="1" fill="freeze" calcMode="spline" keySplines="1 0 0 1; 1 0 0 1; 0.4 0 0.2 1; 1 0 0 1" />
-        <animate attributeName="cy" values="165; 165; 165; 120; 120" keyTimes="0; 0.42; 0.55; 0.65; 1" dur="6s" repeatCount="1" fill="freeze" calcMode="spline" keySplines="1 0 0 1; 1 0 0 1; 0.4 0 0.2 1; 1 0 0 1" />
-        <animate attributeName="opacity" values="0; 0; 1; 0.2; 1; 1; 0; 0" keyTimes="0; 0.41; 0.42; 0.49; 0.57; 0.64; 0.65; 1" dur="6s" repeatCount="1" fill="freeze" />
+        <animate attributeName="cx" values="145; 145; 145; 200; 200" keyTimes="0; 0.28; 0.42; 0.55; 1" dur="6s" repeatCount="1" fill="freeze" calcMode="spline" keySplines="1 0 0 1; 1 0 0 1; 0.4 0 0.2 1; 1 0 0 1" />
+        <animate attributeName="cy" values="165; 165; 165; 120; 120" keyTimes="0; 0.28; 0.42; 0.55; 1" dur="6s" repeatCount="1" fill="freeze" calcMode="spline" keySplines="1 0 0 1; 1 0 0 1; 0.4 0 0.2 1; 1 0 0 1" />
+        <animate attributeName="opacity" values="0; 0; 1; 0.2; 1; 1; 0; 0" keyTimes="0; 0.27; 0.28; 0.35; 0.43; 0.54; 0.55; 1" dur="6s" repeatCount="1" fill="freeze" />
       </circle>
 
       <g>
         <!-- Outer orbit -->
         <g class="orbit-outer">
           <path class="intro-stream" pathLength="100">
-            <animate attributeName="d" values="M 200,80 C 266.27,80 320,133.73 320,200 C 320,266.27 266.27,320 200,320 C 133.73,320 80,266.27 80,200 C 80,133.73 133.73,80 200,80;M 200,80 C 266.27,80 320,133.73 320,200 C 320,266.27 266.27,320 200,320 C 133.73,320 80,266.27 80,200 C 80,133.73 133.73,80 200,80;M 200,140 C 280,140 290,150 290,200 C 290,250 280,260 200,260 C 120,260 110,250 110,200 C 110,150 120,140 200,140;M 200,140 C 280,140 290,150 290,200 C 290,250 280,260 200,260 C 120,260 110,250 110,200 C 110,150 120,140 200,140;M 200,120 C 255,120 280,145 280,200 C 280,255 255,280 200,280 C 145,280 120,255 120,200 C 120,145 145,120 200,120;M 200,120 C 255,120 280,145 280,200 C 280,255 255,280 200,280 C 145,280 120,255 120,200 C 120,145 145,120 200,120;M 200,120 C 255,120 280,145 280,200 C 280,255 255,280 200,280 C 145,280 120,255 120,200 C 120,145 145,120 200,120" keyTimes="0; 0.3; 0.42; 0.55; 0.65; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" calcMode="spline" keySplines="1 0 0 1; 0.65 0 0.15 1; 1 0 0 1; 0.65 0 0.15 1; 1 0 0 1; 0.65 0 0.15 1" />
-            <animate attributeName="stroke-width" values="2; 2; 4; 4; 2; 2; 2" keyTimes="0; 0.3; 0.42; 0.55; 0.65; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
-            <animate attributeName="stroke-dasharray" values="25 100; 25 100; 100 0; 100 0; 100 0; 100 0; 100 0" keyTimes="0; 0.3; 0.42; 0.55; 0.65; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
+            <animate attributeName="d" values="M 200,80 C 266.27,80 320,133.73 320,200 C 320,266.27 266.27,320 200,320 C 133.73,320 80,266.27 80,200 C 80,133.73 133.73,80 200,80;M 200,80 C 266.27,80 320,133.73 320,200 C 320,266.27 266.27,320 200,320 C 133.73,320 80,266.27 80,200 C 80,133.73 133.73,80 200,80;M 200,140 C 280,140 290,150 290,200 C 290,250 280,260 200,260 C 120,260 110,250 110,200 C 110,150 120,140 200,140;M 200,140 C 280,140 290,150 290,200 C 290,250 280,260 200,260 C 120,260 110,250 110,200 C 110,150 120,140 200,140;M 200,120 C 255,120 280,145 280,200 C 280,255 255,280 200,280 C 145,280 120,255 120,200 C 120,145 145,120 200,120;M 200,120 C 255,120 280,145 280,200 C 280,255 255,280 200,280 C 145,280 120,255 120,200 C 120,145 145,120 200,120;M 200,120 C 255,120 280,145 280,200 C 280,255 255,280 200,280 C 145,280 120,255 120,200 C 120,145 145,120 200,120" keyTimes="0; 0.15; 0.28; 0.42; 0.55; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" calcMode="spline" keySplines="1 0 0 1; 0.65 0 0.15 1; 1 0 0 1; 0.65 0 0.15 1; 1 0 0 1; 0.65 0 0.15 1" />
+            <animate attributeName="stroke-width" values="2; 2; 4; 4; 2; 2; 2" keyTimes="0; 0.15; 0.28; 0.42; 0.55; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
+            <animate attributeName="stroke-dasharray" values="25 100; 25 100; 100 0; 100 0; 100 0; 100 0; 100 0" keyTimes="0; 0.15; 0.28; 0.42; 0.55; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
           </path>
           <!-- Logo outer draw-on (gold) -->
           <path d="M 200,120 C 255,120 280,145 280,200 C 280,255 255,280 200,280 C 145,280 120,255 120,200 C 120,145 145,120 200,120" pathLength="100" stroke="url(#introGold)" stroke-width="8" stroke-dasharray="100 100" stroke-dashoffset="100" fill="none" filter="url(#introGlow)">
-            <animate attributeName="stroke-dashoffset" values="100; 100; 0; 0; 0" keyTimes="0; 0.65; 0.8; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
+            <animate attributeName="stroke-dashoffset" values="100; 100; 0; 0; 0" keyTimes="0; 0.55; 0.72; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
           </path>
         </g>
 
         <!-- Inner orbit -->
         <g class="orbit-inner">
           <path class="intro-stream" pathLength="100">
-            <animate attributeName="d" values="M 200,120 C 244.18,120 280,155.82 280,200 C 280,244.18 244.18,280 200,280 C 155.82,280 120,244.18 120,200 C 120,155.82 155.82,120 200,120;M 200,120 C 244.18,120 280,155.82 280,200 C 280,244.18 244.18,280 200,280 C 155.82,280 120,244.18 120,200 C 120,155.82 155.82,120 200,120;M 240,160 C 262.09,160 280,177.91 280,200 C 280,222.09 262.09,240 240,240 C 217.91,240 200,222.09 200,200 C 200,177.91 217.91,160 240,160;M 240,160 C 262.09,160 280,177.91 280,200 C 280,222.09 262.09,240 240,240 C 217.91,240 200,222.09 200,200 C 200,177.91 217.91,160 240,160;M 200,150 C 220,150 235,165 235,200 C 235,235 220,250 200,250 C 180,250 165,235 165,200 C 165,165 180,150 200,150;M 200,150 C 220,150 235,165 235,200 C 235,235 220,250 200,250 C 180,250 165,235 165,200 C 165,165 180,150 200,150;M 200,150 C 220,150 235,165 235,200 C 235,235 220,250 200,250 C 180,250 165,235 165,200 C 165,165 180,150 200,150" keyTimes="0; 0.3; 0.42; 0.55; 0.65; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" calcMode="spline" keySplines="1 0 0 1; 0.65 0 0.15 1; 1 0 0 1; 0.65 0 0.15 1; 1 0 0 1; 0.65 0 0.15 1" />
-            <animate attributeName="stroke-width" values="1.5; 1.5; 3; 3; 1.5; 1.5; 1.5" keyTimes="0; 0.3; 0.42; 0.55; 0.65; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
-            <animate attributeName="stroke-dasharray" values="15 100; 15 100; 100 0; 100 0; 100 0; 100 0; 100 0" keyTimes="0; 0.3; 0.42; 0.55; 0.65; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
+            <animate attributeName="d" values="M 200,120 C 244.18,120 280,155.82 280,200 C 280,244.18 244.18,280 200,280 C 155.82,280 120,244.18 120,200 C 120,155.82 155.82,120 200,120;M 200,120 C 244.18,120 280,155.82 280,200 C 280,244.18 244.18,280 200,280 C 155.82,280 120,244.18 120,200 C 120,155.82 155.82,120 200,120;M 240,160 C 262.09,160 280,177.91 280,200 C 280,222.09 262.09,240 240,240 C 217.91,240 200,222.09 200,200 C 200,177.91 217.91,160 240,160;M 240,160 C 262.09,160 280,177.91 280,200 C 280,222.09 262.09,240 240,240 C 217.91,240 200,222.09 200,200 C 200,177.91 217.91,160 240,160;M 200,150 C 220,150 235,165 235,200 C 235,235 220,250 200,250 C 180,250 165,235 165,200 C 165,165 180,150 200,150;M 200,150 C 220,150 235,165 235,200 C 235,235 220,250 200,250 C 180,250 165,235 165,200 C 165,165 180,150 200,150;M 200,150 C 220,150 235,165 235,200 C 235,235 220,250 200,250 C 180,250 165,235 165,200 C 165,165 180,150 200,150" keyTimes="0; 0.15; 0.28; 0.42; 0.55; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" calcMode="spline" keySplines="1 0 0 1; 0.65 0 0.15 1; 1 0 0 1; 0.65 0 0.15 1; 1 0 0 1; 0.65 0 0.15 1" />
+            <animate attributeName="stroke-width" values="1.5; 1.5; 3; 3; 1.5; 1.5; 1.5" keyTimes="0; 0.15; 0.28; 0.42; 0.55; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
+            <animate attributeName="stroke-dasharray" values="15 100; 15 100; 100 0; 100 0; 100 0; 100 0; 100 0" keyTimes="0; 0.15; 0.28; 0.42; 0.55; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
           </path>
           <!-- Logo inner draw-on (gold) -->
           <path d="M 200,150 C 220,150 235,165 235,200 C 235,235 220,250 200,250 C 180,250 165,235 165,200 C 165,165 180,150 200,150" pathLength="100" stroke="url(#introGold)" stroke-width="8" stroke-dasharray="100 100" stroke-dashoffset="100" fill="none" filter="url(#introGlow)">
-            <animate attributeName="stroke-dashoffset" values="100; 100; 0; 0; 0" keyTimes="0; 0.65; 0.8; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
+            <animate attributeName="stroke-dashoffset" values="100; 100; 0; 0; 0" keyTimes="0; 0.55; 0.72; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
           </path>
         </g>
       </g>
 
     </svg>
     <div class="intro-title">GATE ZERO</div>
-    <div class="intro-tagline">Travel Intelligence</div>
+    <div class="intro-tagline">Travel Creator Intelligence</div>
   </div>
 </div>
 
