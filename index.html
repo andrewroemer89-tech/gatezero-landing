@@ -90,24 +90,69 @@
     height: min(60vw, 60vh, 500px);
   }
 
-  .intro-stroke {
-    fill: none;
-    stroke: #d4b872;
-    stroke-width: 1.2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    filter: drop-shadow(0 0 8px rgba(212, 184, 114, 0.3)) drop-shadow(0 0 40px rgba(212, 184, 114, 0.1));
+  /* Orbit spin — play once, freeze at logo state */
+  .orbit-outer {
+    transform-origin: 200px 200px;
+    animation: introSpinOuter 6s forwards;
+  }
+  .orbit-inner {
+    transform-origin: 200px 200px;
+    animation: introSpinInner 6s forwards;
   }
 
-  .intro-text {
-    fill: #8c8c85;
+  @keyframes introSpinOuter {
+    0% { transform: rotate(0deg); animation-timing-function: linear; }
+    30% { transform: rotate(360deg); animation-timing-function: cubic-bezier(0.65, 0, 0.15, 1); }
+    42% { transform: rotate(720deg); }
+    55% { transform: rotate(720deg); animation-timing-function: cubic-bezier(0.65, 0, 0.15, 1); }
+    65% { transform: rotate(1080deg); }
+    100% { transform: rotate(1080deg); }
+  }
+  @keyframes introSpinInner {
+    0% { transform: rotate(0deg); animation-timing-function: linear; }
+    30% { transform: rotate(-360deg); animation-timing-function: cubic-bezier(0.65, 0, 0.15, 1); }
+    42% { transform: rotate(-720deg); }
+    55% { transform: rotate(-720deg); animation-timing-function: cubic-bezier(0.65, 0, 0.15, 1); }
+    65% { transform: rotate(-1080deg); }
+    100% { transform: rotate(-1080deg); }
+  }
+
+  .intro-stream {
+    fill: none;
+    stroke: url(#introGold);
+    stroke-linecap: round;
+    filter: url(#introGlow);
+  }
+
+  .intro-title {
     font-family: 'JetBrains Mono', 'Courier New', monospace;
-    font-size: 11px;
-    font-weight: 600;
+    font-size: clamp(20px, 4.5vw, 40px);
+    font-weight: 700;
     letter-spacing: 0.35em;
-    text-anchor: middle;
+    text-align: center;
+    margin-top: 32px;
     opacity: 0;
-    animation: introTextFade 2.6s ease forwards;
+    /* Gold shimmer gradient — sweeps across the text */
+    background: linear-gradient(
+      105deg,
+      #8c8c85 0%, #8c8c85 30%,
+      #C9A84C 42%, #FFF8DC 48%, #F5DFA0 50%, #FFF8DC 52%, #C9A84C 58%,
+      #8c8c85 70%, #8c8c85 100%
+    );
+    background-size: 400% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: introTitleFade 6s ease forwards, introTitleShine 1.8s ease-in-out 3.8s forwards;
+  }
+  @keyframes introTitleFade {
+    0%, 48% { opacity: 0; transform: translateY(8px); }
+    62%, 100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes introTitleShine {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
   }
 
   /* Tagline below the SVG */
@@ -118,44 +163,18 @@
     letter-spacing: 0.04em;
     margin-top: 16px;
     opacity: 0;
-    animation: introTagFade 2.6s ease forwards;
-  }
-
-  /* Morph keyframes — play once, 2.6s duration for cinematic pace */
-  .intro-outer   { animation: introMorphOuter 2.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-  .intro-inner   { animation: introMorphInner 2.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-  .intro-meridian { animation: introMeridian 2.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-  .intro-equator  { animation: introEquator 2.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-
-  @keyframes introMorphOuter {
-    0%, 20%  { rx: 40px; width: 80px; height: 80px; x: 60px; y: 55px; }
-    55%, 100% { rx: 8px; width: 44px; height: 60px; x: 78px; y: 55px; }
-  }
-  @keyframes introMorphInner {
-    0%, 20%  { rx: 20px; width: 40px; height: 80px; x: 80px; y: 55px; }
-    55%, 100% { rx: 10px; width: 20px; height: 38px; x: 90px; y: 66px; }
-  }
-  @keyframes introMeridian {
-    0%, 20%  { rx: 12px; ry: 40px; opacity: 1; }
-    50%, 100% { rx: 0px; ry: 20px; opacity: 0; }
-  }
-  @keyframes introEquator {
-    0%, 20%  { rx: 40px; ry: 12px; opacity: 1; }
-    50%, 100% { rx: 15px; ry: 0px; opacity: 0; }
-  }
-  @keyframes introTextFade {
-    0%, 55% { opacity: 0; }
-    75%, 100% { opacity: 1; }
+    animation: introTagFade 6s ease forwards;
   }
   @keyframes introTagFade {
-    0%, 60% { opacity: 0; transform: translateY(6px); }
-    80%, 100% { opacity: 1; transform: translateY(0); }
+    0%, 72% { opacity: 0; transform: translateY(6px); }
+    85%, 100% { opacity: 1; transform: translateY(0); }
   }
 
   /* Fly-to-nav animation — triggered via JS, scale set dynamically */
   #logoIntroInner.flying {
     animation: introFly 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
+  #logoIntroInner.flying .intro-title,
   #logoIntroInner.flying .intro-tagline { opacity: 0; transition: opacity 0.2s; }
   @keyframes introFly {
     0% {
@@ -572,15 +591,64 @@
 <!-- LOGO INTRO -->
 <div id="logoIntro">
   <div id="logoIntroInner">
-    <svg id="introSvg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <g class="intro-stroke">
-        <rect class="intro-outer" x="60" y="55" width="80" height="80" rx="40" />
-        <rect class="intro-inner" x="80" y="55" width="40" height="80" rx="20" />
-        <ellipse class="intro-meridian" cx="100" cy="95" rx="12" ry="40" />
-        <ellipse class="intro-equator" cx="100" cy="95" rx="40" ry="12" />
+    <svg id="introSvg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="introGold" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#FFF8DC" />
+          <stop offset="30%" stop-color="#E8D08D" />
+          <stop offset="60%" stop-color="#C9A84C" />
+          <stop offset="100%" stop-color="#9C7E31" />
+          <animate attributeName="x1" values="-50%; 150%; -50%" dur="4s" repeatCount="indefinite" />
+          <animate attributeName="x2" values="50%; 250%; 50%" dur="4s" repeatCount="indefinite" />
+        </linearGradient>
+        <filter id="introGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="6" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+      </defs>
+
+      <!-- Red record dot -->
+      <circle r="5" fill="#EF4444" filter="drop-shadow(0 0 6px #EF4444)">
+        <animate attributeName="cx" values="145; 145; 145; 200; 200" keyTimes="0; 0.42; 0.55; 0.65; 1" dur="6s" repeatCount="1" fill="freeze" calcMode="spline" keySplines="1 0 0 1; 1 0 0 1; 0.4 0 0.2 1; 1 0 0 1" />
+        <animate attributeName="cy" values="165; 165; 165; 120; 120" keyTimes="0; 0.42; 0.55; 0.65; 1" dur="6s" repeatCount="1" fill="freeze" calcMode="spline" keySplines="1 0 0 1; 1 0 0 1; 0.4 0 0.2 1; 1 0 0 1" />
+        <animate attributeName="opacity" values="0; 0; 1; 0.2; 1; 1; 0; 0" keyTimes="0; 0.41; 0.42; 0.49; 0.57; 0.64; 0.65; 1" dur="6s" repeatCount="1" fill="freeze" />
+      </circle>
+
+      <g>
+        <!-- Outer orbit -->
+        <g class="orbit-outer">
+          <path class="intro-stream" pathLength="100">
+            <animate attributeName="d" values="M 200,80 C 266.27,80 320,133.73 320,200 C 320,266.27 266.27,320 200,320 C 133.73,320 80,266.27 80,200 C 80,133.73 133.73,80 200,80;M 200,80 C 266.27,80 320,133.73 320,200 C 320,266.27 266.27,320 200,320 C 133.73,320 80,266.27 80,200 C 80,133.73 133.73,80 200,80;M 200,140 C 280,140 290,150 290,200 C 290,250 280,260 200,260 C 120,260 110,250 110,200 C 110,150 120,140 200,140;M 200,140 C 280,140 290,150 290,200 C 290,250 280,260 200,260 C 120,260 110,250 110,200 C 110,150 120,140 200,140;M 200,120 C 255,120 280,145 280,200 C 280,255 255,280 200,280 C 145,280 120,255 120,200 C 120,145 145,120 200,120;M 200,120 C 255,120 280,145 280,200 C 280,255 255,280 200,280 C 145,280 120,255 120,200 C 120,145 145,120 200,120;M 200,120 C 255,120 280,145 280,200 C 280,255 255,280 200,280 C 145,280 120,255 120,200 C 120,145 145,120 200,120" keyTimes="0; 0.3; 0.42; 0.55; 0.65; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" calcMode="spline" keySplines="1 0 0 1; 0.65 0 0.15 1; 1 0 0 1; 0.65 0 0.15 1; 1 0 0 1; 0.65 0 0.15 1" />
+            <animate attributeName="stroke-width" values="2; 2; 4; 4; 2; 2; 2" keyTimes="0; 0.3; 0.42; 0.55; 0.65; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
+            <animate attributeName="stroke-dasharray" values="25 100; 25 100; 100 0; 100 0; 100 0; 100 0; 100 0" keyTimes="0; 0.3; 0.42; 0.55; 0.65; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
+          </path>
+          <!-- Logo outer draw-on (gold) -->
+          <path d="M 200,120 C 255,120 280,145 280,200 C 280,255 255,280 200,280 C 145,280 120,255 120,200 C 120,145 145,120 200,120" pathLength="100" stroke="url(#introGold)" stroke-width="8" stroke-dasharray="100 100" fill="none" filter="url(#introGlow)">
+            <animate attributeName="stroke-dashoffset" values="100; 100; 0; 0; 0" keyTimes="0; 0.65; 0.8; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
+          </path>
+          <!-- Red trailing dot -->
+          <path d="M 200,120 C 255,120 280,145 280,200 C 280,255 255,280 200,280 C 145,280 120,255 120,200 C 120,145 145,120 200,120" pathLength="100" stroke="#EF4444" stroke-width="8" stroke-dasharray="0.1 100" stroke-linecap="round" fill="none" filter="drop-shadow(0 0 6px #EF4444)">
+            <animate attributeName="stroke-dashoffset" values="0; 0; -100; -100; -100" keyTimes="0; 0.65; 0.8; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
+            <animate attributeName="opacity" values="0; 0; 1; 1; 0; 0" keyTimes="0; 0.64; 0.65; 0.8; 0.81; 1" dur="6s" repeatCount="1" fill="freeze" />
+          </path>
+        </g>
+
+        <!-- Inner orbit -->
+        <g class="orbit-inner">
+          <path class="intro-stream" pathLength="100">
+            <animate attributeName="d" values="M 200,120 C 244.18,120 280,155.82 280,200 C 280,244.18 244.18,280 200,280 C 155.82,280 120,244.18 120,200 C 120,155.82 155.82,120 200,120;M 200,120 C 244.18,120 280,155.82 280,200 C 280,244.18 244.18,280 200,280 C 155.82,280 120,244.18 120,200 C 120,155.82 155.82,120 200,120;M 240,160 C 262.09,160 280,177.91 280,200 C 280,222.09 262.09,240 240,240 C 217.91,240 200,222.09 200,200 C 200,177.91 217.91,160 240,160;M 240,160 C 262.09,160 280,177.91 280,200 C 280,222.09 262.09,240 240,240 C 217.91,240 200,222.09 200,200 C 200,177.91 217.91,160 240,160;M 200,150 C 220,150 235,165 235,200 C 235,235 220,250 200,250 C 180,250 165,235 165,200 C 165,165 180,150 200,150;M 200,150 C 220,150 235,165 235,200 C 235,235 220,250 200,250 C 180,250 165,235 165,200 C 165,165 180,150 200,150;M 200,150 C 220,150 235,165 235,200 C 235,235 220,250 200,250 C 180,250 165,235 165,200 C 165,165 180,150 200,150" keyTimes="0; 0.3; 0.42; 0.55; 0.65; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" calcMode="spline" keySplines="1 0 0 1; 0.65 0 0.15 1; 1 0 0 1; 0.65 0 0.15 1; 1 0 0 1; 0.65 0 0.15 1" />
+            <animate attributeName="stroke-width" values="1.5; 1.5; 3; 3; 1.5; 1.5; 1.5" keyTimes="0; 0.3; 0.42; 0.55; 0.65; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
+            <animate attributeName="stroke-dasharray" values="15 100; 15 100; 100 0; 100 0; 100 0; 100 0; 100 0" keyTimes="0; 0.3; 0.42; 0.55; 0.65; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
+          </path>
+          <!-- Logo inner draw-on (gold) -->
+          <path d="M 200,150 C 220,150 235,165 235,200 C 235,235 220,250 200,250 C 180,250 165,235 165,200 C 165,165 180,150 200,150" pathLength="100" stroke="url(#introGold)" stroke-width="8" stroke-dasharray="100 100" fill="none" filter="url(#introGlow)">
+            <animate attributeName="stroke-dashoffset" values="100; 100; 0; 0; 0" keyTimes="0; 0.65; 0.8; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
+          </path>
+        </g>
       </g>
-      <text class="intro-text" x="100" y="150">GATE ZERO</text>
+
     </svg>
+    <div class="intro-title">GATE ZERO</div>
     <div class="intro-tagline">Travel Intelligence</div>
   </div>
 </div>
@@ -995,7 +1063,7 @@
         navMark.style.transition = 'opacity 0.4s ease';
         navMark.style.opacity = '1';
       });
-    }, 2800);
+    }, 5500);
   })();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
