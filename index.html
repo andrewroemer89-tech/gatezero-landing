@@ -77,8 +77,6 @@
     flex-direction: column;
     transition: background 0.8s ease;
   }
-  #logoIntro.fly-phase { background: transparent; pointer-events: none; }
-  #logoIntro.done { display: none; }
 
   #logoIntroInner {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -170,24 +168,11 @@
     85%, 100% { opacity: 1; transform: translateY(0); }
   }
 
-  /* Fly-to-nav animation — triggered via JS, scale set dynamically */
-  #logoIntroInner.flying {
-    animation: introFly 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  }
-  #logoIntroInner.flying .intro-title,
-  #logoIntroInner.flying .intro-tagline { opacity: 0; transition: opacity 0.2s; }
-  @keyframes introFly {
-    0% {
-      transform: translate(0, 0) scale(1);
-      opacity: 1;
-    }
-    80% {
-      opacity: 0.6;
-    }
-    100% {
-      transform: translate(var(--fly-x), var(--fly-y)) scale(var(--fly-scale));
-      opacity: 0;
-    }
+  /* Fade-out transition — triggered via JS */
+  #logoIntro.fade-out {
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    pointer-events: none;
   }
 
   /* ═══ NAV ═══ */
@@ -626,11 +611,6 @@
           <path d="M 200,120 C 255,120 280,145 280,200 C 280,255 255,280 200,280 C 145,280 120,255 120,200 C 120,145 145,120 200,120" pathLength="100" stroke="url(#introGold)" stroke-width="8" stroke-dasharray="100 100" stroke-dashoffset="100" fill="none" filter="url(#introGlow)">
             <animate attributeName="stroke-dashoffset" values="100; 100; 0; 0; 0" keyTimes="0; 0.65; 0.8; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
           </path>
-          <!-- Red trailing dot -->
-          <path d="M 200,120 C 255,120 280,145 280,200 C 280,255 255,280 200,280 C 145,280 120,255 120,200 C 120,145 145,120 200,120" pathLength="100" stroke="#EF4444" stroke-width="8" stroke-dasharray="0.1 100" stroke-linecap="round" fill="none" opacity="0" filter="drop-shadow(0 0 6px #EF4444)">
-            <animate attributeName="stroke-dashoffset" values="0; 0; -100; -100; -100" keyTimes="0; 0.65; 0.8; 0.95; 1" dur="6s" repeatCount="1" fill="freeze" />
-            <animate attributeName="opacity" values="0; 0; 1; 1; 0; 0" keyTimes="0; 0.64; 0.65; 0.8; 0.81; 1" dur="6s" repeatCount="1" fill="freeze" />
-          </path>
         </g>
 
         <!-- Inner orbit -->
@@ -1032,37 +1012,15 @@
     const navMark = document.querySelector('.nav-mark');
     if (!intro || !inner || !navMark || !svg) return;
 
-    // After morph completes (~2.8s hold), start fly phase
+    // After morph completes, cross-fade to reveal page
     setTimeout(() => {
-      // Calculate fly destination + scale
-      const navRect = navMark.getBoundingClientRect();
-      const svgRect = svg.getBoundingClientRect();
+      intro.classList.add('fade-out');
+      navMark.style.transition = 'opacity 0.8s ease 0.3s';
+      navMark.style.opacity = '1';
+      document.body.classList.remove('intro-active');
 
-      const navCenterX = navRect.left + navRect.width / 2;
-      const navCenterY = navRect.top + navRect.height / 2;
-      const innerCenterX = svgRect.left + svgRect.width / 2;
-      const innerCenterY = svgRect.top + svgRect.height / 2;
-
-      const dx = navCenterX - innerCenterX;
-      const dy = navCenterY - innerCenterY;
-      const flyScale = navRect.width / svgRect.width; // e.g. 30/500 = 0.06
-
-      inner.style.setProperty('--fly-x', dx + 'px');
-      inner.style.setProperty('--fly-y', dy + 'px');
-      inner.style.setProperty('--fly-scale', flyScale);
-
-      // Start fly + fade overlay
-      intro.classList.add('fly-phase');
-      inner.classList.add('flying');
-
-      // On fly animation end — reveal page
-      inner.addEventListener('animationend', function onFly() {
-        inner.removeEventListener('animationend', onFly);
-        intro.classList.add('done');
-        document.body.classList.remove('intro-active');
-        navMark.style.transition = 'opacity 0.4s ease';
-        navMark.style.opacity = '1';
-      });
+      // Remove overlay after fade completes
+      setTimeout(() => { intro.style.display = 'none'; }, 1400);
     }, 5500);
   })();
 </script>
