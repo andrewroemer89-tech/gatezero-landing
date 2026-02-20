@@ -65,6 +65,112 @@
   .fu { animation: fadeUp 0.8s ease-out both; }
   .d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}.d5{animation-delay:.7s}
 
+  /* Pause hero animations while intro plays */
+  .intro-active .fu { animation-play-state: paused; opacity: 0; }
+  .intro-active .nav-mark { opacity: 0; }
+
+  /* ═══ LOGO INTRO OVERLAY ═══ */
+  #logoIntro {
+    position: fixed; inset: 0; z-index: 101;
+    background: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    transition: background 0.8s ease;
+  }
+  #logoIntro.fly-phase { background: transparent; pointer-events: none; }
+  #logoIntro.done { display: none; }
+
+  #logoIntroInner {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+
+  /* Cinematic sizing — 60% of viewport, capped for large screens */
+  #introSvg {
+    width: min(60vw, 60vh, 500px);
+    height: min(60vw, 60vh, 500px);
+  }
+
+  .intro-stroke {
+    fill: none;
+    stroke: #d4b872;
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 8px rgba(212, 184, 114, 0.3)) drop-shadow(0 0 40px rgba(212, 184, 114, 0.1));
+  }
+
+  .intro-text {
+    fill: #8c8c85;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-anchor: middle;
+    opacity: 0;
+    animation: introTextFade 2.6s ease forwards;
+  }
+
+  /* Tagline below the SVG */
+  .intro-tagline {
+    font-family: var(--serif);
+    font-size: clamp(14px, 2.5vw, 22px);
+    color: #E8DCC860;
+    letter-spacing: 0.04em;
+    margin-top: 16px;
+    opacity: 0;
+    animation: introTagFade 2.6s ease forwards;
+  }
+
+  /* Morph keyframes — play once, 2.6s duration for cinematic pace */
+  .intro-outer   { animation: introMorphOuter 2.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+  .intro-inner   { animation: introMorphInner 2.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+  .intro-meridian { animation: introMeridian 2.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+  .intro-equator  { animation: introEquator 2.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+  @keyframes introMorphOuter {
+    0%, 20%  { rx: 40px; width: 80px; height: 80px; x: 60px; y: 55px; }
+    55%, 100% { rx: 8px; width: 44px; height: 60px; x: 78px; y: 55px; }
+  }
+  @keyframes introMorphInner {
+    0%, 20%  { rx: 20px; width: 40px; height: 80px; x: 80px; y: 55px; }
+    55%, 100% { rx: 10px; width: 20px; height: 38px; x: 90px; y: 66px; }
+  }
+  @keyframes introMeridian {
+    0%, 20%  { rx: 12px; ry: 40px; opacity: 1; }
+    50%, 100% { rx: 0px; ry: 20px; opacity: 0; }
+  }
+  @keyframes introEquator {
+    0%, 20%  { rx: 40px; ry: 12px; opacity: 1; }
+    50%, 100% { rx: 15px; ry: 0px; opacity: 0; }
+  }
+  @keyframes introTextFade {
+    0%, 55% { opacity: 0; }
+    75%, 100% { opacity: 1; }
+  }
+  @keyframes introTagFade {
+    0%, 60% { opacity: 0; transform: translateY(6px); }
+    80%, 100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Fly-to-nav animation — triggered via JS, scale set dynamically */
+  #logoIntroInner.flying {
+    animation: introFly 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  #logoIntroInner.flying .intro-tagline { opacity: 0; transition: opacity 0.2s; }
+  @keyframes introFly {
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 1;
+    }
+    80% {
+      opacity: 0.6;
+    }
+    100% {
+      transform: translate(var(--fly-x), var(--fly-y)) scale(var(--fly-scale));
+      opacity: 0;
+    }
+  }
+
   /* ═══ NAV ═══ */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -461,7 +567,23 @@
   }
 </style>
 </head>
-<body>
+<body class="intro-active">
+
+<!-- LOGO INTRO -->
+<div id="logoIntro">
+  <div id="logoIntroInner">
+    <svg id="introSvg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <g class="intro-stroke">
+        <rect class="intro-outer" x="60" y="55" width="80" height="80" rx="40" />
+        <rect class="intro-inner" x="80" y="55" width="40" height="80" rx="20" />
+        <ellipse class="intro-meridian" cx="100" cy="95" rx="12" ry="40" />
+        <ellipse class="intro-equator" cx="100" cy="95" rx="40" ry="12" />
+      </g>
+      <text class="intro-text" x="100" y="150">GATE ZERO</text>
+    </svg>
+    <div class="intro-tagline">Travel Intelligence</div>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav>
@@ -833,6 +955,48 @@
     el.style.transition = 'all 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
     obs.observe(el);
   });
+
+  // ═══ LOGO INTRO ANIMATION ═══
+  (function() {
+    const intro = document.getElementById('logoIntro');
+    const inner = document.getElementById('logoIntroInner');
+    const svg = document.getElementById('introSvg');
+    const navMark = document.querySelector('.nav-mark');
+    if (!intro || !inner || !navMark || !svg) return;
+
+    // After morph completes (~2.8s hold), start fly phase
+    setTimeout(() => {
+      // Calculate fly destination + scale
+      const navRect = navMark.getBoundingClientRect();
+      const svgRect = svg.getBoundingClientRect();
+
+      const navCenterX = navRect.left + navRect.width / 2;
+      const navCenterY = navRect.top + navRect.height / 2;
+      const innerCenterX = svgRect.left + svgRect.width / 2;
+      const innerCenterY = svgRect.top + svgRect.height / 2;
+
+      const dx = navCenterX - innerCenterX;
+      const dy = navCenterY - innerCenterY;
+      const flyScale = navRect.width / svgRect.width; // e.g. 30/500 = 0.06
+
+      inner.style.setProperty('--fly-x', dx + 'px');
+      inner.style.setProperty('--fly-y', dy + 'px');
+      inner.style.setProperty('--fly-scale', flyScale);
+
+      // Start fly + fade overlay
+      intro.classList.add('fly-phase');
+      inner.classList.add('flying');
+
+      // On fly animation end — reveal page
+      inner.addEventListener('animationend', function onFly() {
+        inner.removeEventListener('animationend', onFly);
+        intro.classList.add('done');
+        document.body.classList.remove('intro-active');
+        navMark.style.transition = 'opacity 0.4s ease';
+        navMark.style.opacity = '1';
+      });
+    }, 2800);
+  })();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 
