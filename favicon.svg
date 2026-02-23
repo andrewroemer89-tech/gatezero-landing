@@ -11,7 +11,7 @@
       <feComposite in="SourceGraphic" in2="blur" operator="over"/>
     </filter>
   </defs>
-  <rect x="85" y="85" width="230" height="230" rx="30" fill="#0a0a0f"/>
+  <rect x="85" y="85" width="230" height="230" rx="30" fill="#0f1524"/>
   <path d="M 200,120 C 255,120 280,145 280,200 C 280,255 255,280 200,280 C 145,280 120,255 120,200 C 120,145 145,120 200,120" stroke="url(#gz-gold)" stroke-width="10" fill="none" filter="url(#gz-glow)"/>
   <path d="M 200,150 C 220,150 235,165 235,200 C 235,235 220,250 200,250 C 180,250 165,235 165,200 C 165,165 180,150 200,150" stroke="url(#gz-gold)" stroke-width="10" fill="none" filter="url(#gz-glow)"/>
 </svg>
