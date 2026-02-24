@@ -203,8 +203,8 @@
 
   /* ═══ HERO — DARK, BOLD ═══ */
   .hero {
-    min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 100px 40px 60px; text-align: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 60px 40px 60px; text-align: center;
     background: var(--ink); position: relative; overflow: hidden;
   }
 
@@ -225,43 +225,36 @@
     pointer-events: none;
   }
 
-  /* ═══ HERO VIDEO ═══ */
-  .hero-video {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    object-fit: cover; z-index: 0;
+  /* ═══ VIDEO HERO SECTION ═══ */
+  .video-hero {
+    position: relative; width: 100%; height: 70vh;
+    overflow: hidden; background: var(--ink);
+    margin-top: 52px;
   }
-  .hero-video-overlay {
-    position: absolute; inset: 0; z-index: 1;
-    background: linear-gradient(
-      to bottom,
-      rgba(13,13,13,0.75) 0%,
-      rgba(13,13,13,0.55) 40%,
-      rgba(13,13,13,0.65) 70%,
-      rgba(13,13,13,0.85) 100%
-    );
+  .vh-video {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .vh-fade {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
+    background: linear-gradient(to bottom, transparent, var(--ink));
     pointer-events: none;
   }
-
-  .hero-unmute {
-    position: absolute; bottom: 24px; right: 24px; z-index: 3;
+  .vh-unmute {
+    position: absolute; bottom: 24px; right: 24px; z-index: 2;
     display: flex; align-items: center; gap: 10px;
     padding: 10px 16px;
     background: rgba(13,13,13,0.85);
     border: 1px solid rgba(184,134,11,0.4);
-    border-radius: 6px;
-    color: var(--gold);
-    cursor: pointer;
-    transition: all 0.3s ease;
+    border-radius: 6px; color: var(--gold);
+    cursor: pointer; transition: all 0.3s ease;
     animation: unmutePulse 2.5s ease-in-out 3;
   }
-  .hero-unmute:hover {
-    background: rgba(13,13,13,0.95);
-    border-color: var(--gold);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(184,134,11,0.2);
+  .vh-unmute:hover {
+    background: rgba(13,13,13,0.95); border-color: var(--gold);
+    transform: translateY(-2px); box-shadow: 0 4px 20px rgba(184,134,11,0.2);
   }
-  .hero-unmute.is-unmuted { animation: none; border-color: rgba(184,134,11,0.2); }
-  .hero-unmute.is-unmuted .unmute-label { display: none; }
+  .vh-unmute.is-unmuted { animation: none; border-color: rgba(184,134,11,0.2); }
+  .vh-unmute.is-unmuted .unmute-label { display: none; }
 
   .unmute-icon { width: 18px; height: 18px; flex-shrink: 0; }
   .unmute-label {
@@ -610,7 +603,10 @@
   @media(max-width:768px) {
     nav { padding: 10px 20px; }
     .nav-links { display: none; }
-    .hero { padding: 90px 20px 50px; }
+    .video-hero { height: 50vh; }
+    .vh-unmute { bottom: 16px; right: 16px; padding: 8px 12px; }
+    .unmute-label { display: none; }
+    .hero { padding: 40px 20px 50px; }
     .hero-terminal { display: none; }
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
     .stat-card:nth-child(2)::after { display: none; }
@@ -704,16 +700,13 @@
   <a href="#waitlist" class="nav-cta">JOIN WAITLIST</a>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <!-- Background video -->
-  <video class="hero-video" autoplay muted loop playsinline>
+<!-- VIDEO HERO -->
+<section class="video-hero">
+  <video class="vh-video" autoplay muted loop playsinline>
     <source src="https://tjdvnmymctajtncgpgjw.supabase.co/storage/v1/object/public/videos/Smallervideogatezerowebsite.mp4" type="video/mp4">
   </video>
-  <div class="hero-video-overlay"></div>
-
-  <!-- Unmute button -->
-  <button class="hero-unmute" id="heroUnmute" aria-label="Unmute video">
+  <div class="vh-fade"></div>
+  <button class="vh-unmute" id="heroUnmute" aria-label="Unmute video">
     <svg class="unmute-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M11 5L6 9H2v6h4l5 4V5z"/>
       <line x1="23" y1="9" x2="17" y2="15"/>
@@ -721,7 +714,10 @@
     </svg>
     <span class="unmute-label">UNMUTE FOR FULL EXPERIENCE</span>
   </button>
+</section>
 
+<!-- HERO -->
+<section class="hero">
   <div class="hero-content">
     <div class="hero-badge fu d1">
       <div class="hero-badge-dot"></div>
@@ -1100,7 +1096,7 @@
   // ── Hero video unmute toggle ──
   (function() {
     const btn = document.getElementById('heroUnmute');
-    const video = document.querySelector('.hero-video');
+    const video = document.querySelector('.vh-video');
     if (!btn || !video) return;
 
     const mutedSVG = '<path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>';
