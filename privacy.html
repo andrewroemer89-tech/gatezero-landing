@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Gate Zero</title>
+<meta name="description" content="Gate Zero privacy policy. How we use YouTube API Services, what data we collect, and your rights.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF6EE;
+    --cream-dark: #E8DCC8;
+    --white: #FFFDF7;
+    --ink: #0D0D0D;
+    --ink-mid: #1A1A1A;
+    --ink-light: #2C2C2C;
+    --gold: #B8860B;
+    --gold-bright: #D4A017;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+    --serif: 'Instrument Serif', serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--ink); color: var(--cream-dark); font-family: var(--sans); overflow-x: hidden; }
+
+  /* Grain */
+  body::after {
+    content: ''; position: fixed; inset: 0; opacity: 0.02; pointer-events: none; z-index: 9999;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 12px 40px; display: flex; align-items: center; justify-content: space-between;
+    background: rgba(13,13,13,0.95); backdrop-filter: blur(16px);
+    border-bottom: 1px solid #ffffff08;
+  }
+  .nav-left { display: flex; align-items: center; gap: 10px; }
+  .nav-mark { width: 30px; height: 30px; flex-shrink: 0; }
+  .nav-name { font-family: var(--mono); font-weight: 700; font-size: 13px; letter-spacing: 0.12em; color: #E8DCC8; text-decoration: none; }
+  .nav-cta {
+    padding: 8px 20px; background: var(--gold); color: var(--ink); border: none; border-radius: 4px;
+    font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    cursor: pointer; text-decoration: none; transition: all 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-bright); transform: translateY(-1px); }
+
+  /* CONTENT */
+  .privacy-content {
+    max-width: 720px; margin: 0 auto;
+    padding: 120px 40px 80px;
+  }
+
+  .privacy-tag {
+    font-family: var(--mono); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.2em; color: var(--gold); margin-bottom: 16px; display: block;
+  }
+
+  .privacy-title {
+    font-family: var(--serif); font-size: clamp(30px, 4vw, 46px);
+    color: var(--cream); line-height: 1.15; font-weight: 400; margin-bottom: 12px;
+  }
+
+  .privacy-updated {
+    font-family: var(--mono); font-size: 10px; color: #9A8A72;
+    letter-spacing: 0.06em; margin-bottom: 48px;
+  }
+
+  h2 {
+    font-family: var(--mono); font-size: 12px; font-weight: 700;
+    letter-spacing: 0.14em; color: var(--gold); margin: 40px 0 16px;
+    text-transform: uppercase;
+  }
+
+  p {
+    font-family: var(--sans); font-size: 15px; line-height: 1.75;
+    color: #C8B99A; margin-bottom: 16px;
+  }
+
+  a { color: var(--gold); text-decoration: none; transition: color 0.2s; }
+  a:hover { color: var(--gold-bright); }
+
+  ul {
+    margin: 0 0 16px 24px; padding: 0;
+  }
+  li {
+    font-family: var(--sans); font-size: 15px; line-height: 1.75;
+    color: #C8B99A; margin-bottom: 8px;
+  }
+
+  .contact-box {
+    margin-top: 40px; padding: 20px 24px;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(184,134,11,0.15);
+    border-radius: 8px;
+  }
+  .contact-box p { margin-bottom: 0; }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink); padding: 32px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .footer-left { display: flex; align-items: center; gap: 10px; }
+  .foot-mark { width: 22px; height: 22px; flex-shrink: 0; }
+  .footer-text { font-family: var(--mono); font-size: 10px; color: #9A8A72; letter-spacing: 0.05em; }
+  .footer-links { display: flex; align-items: center; gap: 20px; }
+  .footer-links a {
+    font-family: var(--mono); font-size: 10px; color: #9A8A72; text-decoration: none;
+    letter-spacing: 0.05em; transition: color 0.2s; display: inline-flex; align-items: center; gap: 5px;
+  }
+  .footer-links a:hover { color: var(--cream); }
+  .footer-links a svg { width: 14px; height: 14px; fill: currentColor; }
+
+  @media(max-width:768px) {
+    nav { padding: 10px 20px; }
+    .privacy-content { padding: 90px 20px 60px; }
+    footer { flex-direction: column; gap: 14px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-left" style="text-decoration:none;">
+    <svg class="nav-mark" viewBox="80 80 240 240" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gzf" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFF8DC"/><stop offset="30%" stop-color="#E8D08D"/><stop offset="60%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#9C7E31"/></linearGradient><filter id="gzg" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="4" result="blur"/><feComposite in="SourceGraphic" in2="blur" operator="over"/></filter></defs><rect x="85" y="85" width="230" height="230" rx="30" fill="#0f1524"/><path d="M 200,120 C 255,120 280,145 280,200 C 280,255 255,280 200,280 C 145,280 120,255 120,200 C 120,145 145,120 200,120" stroke="url(#gzf)" stroke-width="8" fill="none" filter="url(#gzg)"/><path d="M 200,150 C 220,150 235,165 235,200 C 235,235 220,250 200,250 C 180,250 165,235 165,200 C 165,165 180,150 200,150" stroke="url(#gzf)" stroke-width="8" fill="none" filter="url(#gzg)"/></svg>
+    <span class="nav-name">GATE ZERO</span>
+  </a>
+  <a href="/" class="nav-cta">BACK TO HOME</a>
+</nav>
+
+<main class="privacy-content">
+  <span class="privacy-tag">LEGAL</span>
+  <h1 class="privacy-title">Privacy Policy</h1>
+  <p class="privacy-updated">Last updated: February 25, 2026</p>
+
+  <h2>What Gate Zero Does</h2>
+  <p>Gate Zero is a travel creator intelligence platform that helps YouTube travel creators make data-driven decisions about where to film, when to post, and what content strategies are working. We analyse publicly available YouTube data to surface destination timing recommendations, content landscape insights, and competitive intelligence.</p>
+
+  <h2>YouTube API Services</h2>
+  <p>Gate Zero uses <a href="https://developers.google.com/youtube/terms/api-services-terms-of-service" target="_blank" rel="noopener">YouTube API Services</a> to access publicly available data from the YouTube platform. By using Gate Zero, you agree to be bound by the YouTube API Services Terms of Service.</p>
+  <p>Our use of information received from YouTube APIs adheres to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
+
+  <h2>What Data We Access</h2>
+  <p>We access publicly available YouTube data, including:</p>
+  <ul>
+    <li>Channel metadata (name, description, subscriber count, uploads playlist)</li>
+    <li>Video statistics (view counts, likes, comments, duration, publish dates)</li>
+    <li>Upload patterns and content frequency</li>
+    <li>Engagement metrics and performance trends</li>
+  </ul>
+  <p>All data we access is publicly available and read-only. We do not access private videos, private playlists, or any data that is not already visible on the YouTube platform.</p>
+
+  <h2>How We Use the Data</h2>
+  <p>We use YouTube data to:</p>
+  <ul>
+    <li>Power destination timing recommendations based on content performance patterns</li>
+    <li>Provide content landscape insights across 190+ travel destinations</li>
+    <li>Generate competitive intelligence for travel creators</li>
+    <li>Identify trending destinations and underserved content opportunities</li>
+  </ul>
+
+  <h2>Data Storage</h2>
+  <p>We cache aggregated metrics in our database to minimise API calls and provide a responsive user experience. We store processed analytics — such as performance trends, destination scores, and aggregate statistics — rather than raw API responses. Cached data is refreshed periodically to ensure accuracy.</p>
+
+  <h2>Revoking Access</h2>
+  <p>You can revoke Gate Zero's access to your YouTube data at any time through Google's security settings:</p>
+  <ul>
+    <li>Visit <a href="https://security.google.com/settings/security/permissions" target="_blank" rel="noopener">Google Security Permissions</a></li>
+    <li>Find "Gate Zero" in the list of connected apps</li>
+    <li>Click "Remove Access"</li>
+  </ul>
+  <p>Revoking access will prevent Gate Zero from accessing any YouTube data associated with your Google account going forward.</p>
+
+  <h2>User Data We Collect</h2>
+  <p>When you sign up for Gate Zero, we collect:</p>
+  <ul>
+    <li><strong>Email address</strong> — provided when you join the waitlist or create an account</li>
+    <li><strong>Usage analytics</strong> — basic product usage data to help us improve the platform</li>
+  </ul>
+  <p>We do not sell, rent, or share your personal data with third parties for marketing purposes.</p>
+
+  <h2>Data Deletion</h2>
+  <p>You can request deletion of your data at any time by contacting us at the email below. We will process deletion requests within 30 days and confirm once your data has been removed from our systems.</p>
+
+  <h2>Updates to This Policy</h2>
+  <p>We may update this privacy policy from time to time. If we make significant changes, we will notify users via email or through the Gate Zero platform. Continued use of Gate Zero after changes are posted constitutes acceptance of the updated policy.</p>
+
+  <h2>Contact</h2>
+  <div class="contact-box">
+    <p>For privacy-related inquiries, data deletion requests, or questions about this policy, contact us at <a href="mailto:AndrewR@gatezero.app">AndrewR@gatezero.app</a>.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-left">
+    <svg class="foot-mark" viewBox="80 80 240 240" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gzff" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFF8DC"/><stop offset="30%" stop-color="#E8D08D"/><stop offset="60%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#9C7E31"/></linearGradient><filter id="gzfg" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="4" result="blur"/><feComposite in="SourceGraphic" in2="blur" operator="over"/></filter></defs><rect x="85" y="85" width="230" height="230" rx="30" fill="#0f1524"/><path d="M 200,120 C 255,120 280,145 280,200 C 280,255 255,280 200,280 C 145,280 120,255 120,200 C 120,145 145,120 200,120" stroke="url(#gzff)" stroke-width="8" fill="none" filter="url(#gzfg)"/><path d="M 200,150 C 220,150 235,165 235,200 C 235,235 220,250 200,250 C 180,250 165,235 165,200 C 165,165 180,150 200,150" stroke="url(#gzff)" stroke-width="8" fill="none" filter="url(#gzfg)"/></svg>
+    <span class="footer-text">© 2026 Gate Zero</span>
+  </div>
+  <div class="footer-links">
+    <a href="mailto:AndrewR@gatezero.app">AndrewR@gatezero.app</a>
+    <a href="/privacy">Privacy Policy</a>
+    <a href="https://developers.google.com/youtube/terms/api-services-terms-of-service" target="_blank" rel="noopener">YouTube API Terms</a>
+    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>
+  </div>
+</footer>
+
+</body></html>
