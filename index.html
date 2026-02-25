@@ -93,10 +93,12 @@
   .orbit-outer {
     transform-origin: 200px 200px;
     animation: introSpinOuter 6s forwards;
+    will-change: transform;
   }
   .orbit-inner {
     transform-origin: 200px 200px;
     animation: introSpinInner 6s forwards;
+    will-change: transform;
   }
 
   @keyframes introSpinOuter {
@@ -702,7 +704,7 @@
 
 <!-- VIDEO HERO -->
 <section class="video-hero">
-  <video class="vh-video" autoplay muted loop playsinline>
+  <video class="vh-video" autoplay muted loop playsinline preload="none">
     <source src="/Smallervideogatezerowebsite.mp4" type="video/mp4">
   </video>
   <div class="vh-fade"></div>
@@ -1090,6 +1092,10 @@
       navMark.style.transition = 'opacity 0.8s ease 0.3s';
       navMark.style.opacity = '1';
       document.body.classList.remove('intro-active');
+
+      // Start video now that intro is done (was deferred to avoid stutter)
+      const vid = document.querySelector('.vh-video');
+      if (vid) { vid.src = vid.querySelector('source').src; vid.play(); }
 
       // Remove overlay after zoom-through completes
       setTimeout(() => { intro.style.display = 'none'; }, 1800);
