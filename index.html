@@ -412,7 +412,7 @@
     color: var(--ink); line-height: 1.5; padding-left: 16px;
     border-left: 2px solid var(--gold);
   }
-  .founder-links { display: flex; gap: 12px; margin-top: 4px; }
+  .founder-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
   .founder-link {
     display: inline-flex; align-items: center; gap: 7px;
     padding: 8px 18px; border-radius: 6px; font-family: var(--mono);
@@ -609,6 +609,10 @@
     .unmute-label { display: none; }
     .hero { padding: 40px 20px 50px; }
     .hero-terminal { display: none; }
+    .proof-section { padding: 32px 20px; }
+    .founder-section { padding: 48px 20px; }
+    .founder-bio { max-width: 100%; }
+    .stats-section { padding: 40px 20px; }
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
     .stat-card:nth-child(2)::after { display: none; }
     .bento-grid { grid-template-columns: 1fr; }
@@ -623,6 +627,22 @@
     .footer-links { flex-wrap: wrap; justify-content: center; gap: 12px; }
     .hero-unmute { bottom: 16px; right: 16px; padding: 8px 12px; }
     .unmute-label { display: none; }
+  }
+
+  @media(max-width:480px) {
+    .hero { padding: 32px 16px 40px; }
+    .proof-section { padding: 28px 16px; }
+    .founder-section { padding: 36px 16px; }
+    .founder-inner { gap: 20px; }
+    .founder-photo { width: 120px; height: 120px; }
+    .founder-name { font-size: 24px; }
+    .founder-bio { font-size: 14px; }
+    .founder-quote { font-size: 15px; }
+    .founder-link { padding: 7px 14px; font-size: 10px; }
+    .stats-section { padding: 32px 16px; }
+    .stat-value { font-size: 28px; }
+    .stat-sub { font-size: 11px; }
+    .bento-section, .extras-section { padding-left: 16px; padding-right: 16px; }
   }
 </style>
 </head>
