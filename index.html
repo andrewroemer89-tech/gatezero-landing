@@ -704,7 +704,7 @@
 
 <!-- VIDEO HERO -->
 <section class="video-hero">
-  <video class="vh-video" autoplay muted loop playsinline preload="none">
+  <video class="vh-video" muted loop playsinline preload="auto">
     <source src="/Smallervideogatezerowebsite.mp4" type="video/mp4">
   </video>
   <div class="vh-fade"></div>
@@ -1093,9 +1093,9 @@
       navMark.style.opacity = '1';
       document.body.classList.remove('intro-active');
 
-      // Start video now that intro is done (was deferred to avoid stutter)
+      // Start video now that intro is done (buffered during intro via preload=auto)
       const vid = document.querySelector('.vh-video');
-      if (vid) { vid.src = vid.querySelector('source').src; vid.play(); }
+      if (vid) vid.play();
 
       // Remove overlay after zoom-through completes
       setTimeout(() => { intro.style.display = 'none'; }, 1800);
